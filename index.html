@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Ma Learn English">
 <meta name="theme-color" content="#dc143c">
 <title>Ma Learn English - Lina</title>
 <link rel="manifest" href="manifest.json">
@@ -23,8 +21,6 @@
   --text: #1a1a18;
   --text2: #5f5e5a;
   --text3: #9a9890;
-  --radius: 10px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -46,89 +42,75 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 #splash { position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 999; opacity: 1; transition: opacity 0.5s; }
 #splash.hidden { opacity: 0; }
 .splash-icon { width: 110px; height: 110px; border-radius: 24px; object-fit: cover; box-shadow: 0 8px 32px rgba(0,0,0,0.18); margin-bottom: 28px; }
-.splash-title { font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; text-align: center; }
+.splash-title { font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; }
 .splash-subtitle { font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 36px; }
-.splash-card { background: white; padding: 24px; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); cursor: pointer; transform: scale(1); transition: transform 0.2s; max-width: 280px; }
-.splash-card:active { transform: scale(0.98); }
-.splash-phrase-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-.splash-phrase-en { font-size: 17px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 8px; }
-.splash-phrase-fr { font-size: 15px; color: var(--green); font-style: italic; line-height: 1.4; display: none; margin-bottom: 4px; }
+.splash-card { background: white; padding: 24px; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); cursor: pointer; max-width: 280px; }
+.splash-phrase-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; }
+.splash-phrase-en { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.splash-phrase-fr { font-size: 15px; color: var(--green); font-style: italic; display: none; margin-bottom: 4px; }
 .splash-hint { font-size: 12px; color: var(--text3); margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .splash-hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); }
 .splash-hint-dot.active { background: var(--primary); }
 .splash-sound-btn { background: none; border: none; font-size: 20px; cursor: pointer; margin-top: 8px; color: var(--text3); display: none; }
-.splash-enter-btn { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--primary); font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; display: none; opacity: 1; transition: opacity 0.3s; }
-.splash-enter-btn:active { opacity: 0.85; }
+.splash-enter-btn { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--primary); font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; display: none; }
 
 /* APP */
 .app { display: flex; flex-direction: column; height: 100%; max-width: 680px; margin: 0 auto; }
 .main { flex: 1; overflow-y: auto; padding: 12px 14px 80px; -webkit-overflow-scrolling: touch; }
 .header { padding: 12px 14px; background: var(--surface); border-bottom: 0.5px solid var(--border); }
 .header h1 { font-size: 18px; font-weight: 600; color: var(--primary); }
-.header-actions { display: flex; gap: 8px; margin-top: 8px; }
-.icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
 .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 680px; background: var(--surface); border-top: 0.5px solid var(--border); display: flex; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100; }
 .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px 10px; cursor: pointer; color: var(--text3); font-size: 10px; gap: 3px; border: none; background: none; }
 .nav-item.active { color: var(--primary); }
 .section { display: none; }
 .section.active { display: block; }
 
-/* CARDS */
-.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-.flip-card { perspective: 800px; cursor: pointer; height: 100px; }
-.flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.38s; }
-.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
-.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 0.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; text-align: center; }
-.flip-front { background: var(--surface); }
-.flip-back { background: var(--primary-light); transform: rotateY(180deg); }
-.flip-word { font-size: 14px; font-weight: 600; color: var(--text); }
-.flip-trans { font-size: 12px; color: var(--primary); font-weight: 500; }
+/* TRANSLATOR */
+.trad-lang-bar { display: flex; gap: 6px; margin-bottom: 12px; }
+.trad-lang-btn { flex: 1; padding: 8px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--primary); }
+.trad-lang-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+.trad-input-wrap { position: relative; margin-bottom: 10px; }
+.trad-textarea { width: 100%; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none; min-height: 80px; }
+.trad-clear { position: absolute; top: 8px; right: 8px; background: none; border: none; font-size: 16px; cursor: pointer; color: var(--text3); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.trad-clear.visible { opacity: 1; pointer-events: all; }
+.btn-primary { padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-/* DIALOGUE */
-.mode-selector { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; scrollbar-width: none; }
-.mode-btn { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); white-space: nowrap; font-weight: 500; }
-.mode-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-.dial-header { display: flex; gap: 8px; margin-bottom: 12px; }
-.lang-btn { padding: 6px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--primary); font-weight: 600; }
-.dial-messages { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-height: 380px; overflow-y: auto; padding: 10px 0; }
-.message { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-.message.user { align-items: flex-end; }
-.message-bubble { max-width: 85%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
-.message.user .message-bubble { background: var(--primary); color: white; border-radius: 18px 18px 4px 18px; }
-.message.assistant .message-bubble { background: var(--surface2); color: var(--text); border-radius: 18px 18px 18px 4px; border: 0.5px solid var(--border); cursor: pointer; }
-.message-trans { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); display: none; }
-.sound-btn { background: none; border: none; font-size: 13px; cursor: pointer; margin-top: 4px; }
+.trad-loading { padding: 20px; text-align: center; color: var(--text2); }
+.trad-error { padding: 16px; background: rgba(255,0,0,0.05); border-radius: 8px; color: var(--text); font-size: 13px; }
+.trad-result-card { background: var(--primary-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+.trad-result-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.trad-result-text { font-size: 16px; font-weight: 600; color: var(--primary); }
+.trad-copy-btn { padding: 6px 12px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; }
+.trad-copy-btn.copied { background: var(--green-light); color: var(--green); }
+.trad-phonetic { font-size: 13px; color: var(--text2); font-style: italic; padding: 10px 0; border-top: 0.5px solid rgba(0,0,0,0.1); margin-top: 10px; }
+.trad-alt-wrap { margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(0,0,0,0.1); }
+.trad-alt-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.06em; }
+.trad-alt-chip { display: inline-block; padding: 6px 12px; border-radius: 16px; background: white; color: var(--primary); font-size: 12px; margin-right: 6px; margin-bottom: 6px; cursor: pointer; border: 0.5px solid var(--border); }
+.trad-examples { background: var(--surface); border-radius: 8px; padding: 12px; margin-top: 12px; }
+.trad-examples-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.trad-examples-header h4 { font-size: 12px; font-weight: 600; }
+.trad-example { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 0.5px solid var(--border); }
+.trad-example:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.trad-ex-en { font-size: 13px; line-height: 1.5; color: var(--text); }
+.trad-ex-highlight { background: rgba(220,20,60,0.2); padding: 2px 4px; border-radius: 3px; font-weight: 600; }
+.trad-add-bar { background: var(--green-light); border-radius: 8px; padding: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; }
+.trad-history { display: flex; flex-wrap: wrap; gap: 6px; }
+.trad-hist-btn { padding: 6px 12px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); }
 
-.dial-input-wrap { display: flex; gap: 8px; padding: 12px; background: var(--surface); border-top: 0.5px solid var(--border); }
-.dial-input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none; }
-.dial-btn { padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; cursor: pointer; color: var(--text2); font-weight: 600; }
-.dial-btn:disabled { opacity: 0.6; }
-
-/* SETTINGS */
-.settings-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; align-items: center; justify-content: flex-end; }
-.settings-modal.show { display: flex; }
-.settings-panel { background: var(--surface); width: 100%; max-width: 400px; height: 100%; overflow-y: auto; display: flex; flex-direction: column; }
-.settings-header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid var(--border); }
-.settings-body { flex: 1; padding: 14px; }
-.settings-item { margin-bottom: 16px; }
-.settings-item label { display: block; font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 6px; }
-.settings-item input { width: 100%; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 13px; color: var(--text); outline: none; font-family: monospace; }
-.settings-btn { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 8px; }
-
-.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 12px 16px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 12px 16px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; transition: opacity 0.3s; }
 .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div id="splash">
   <div style="text-align: center;">
     <img class="splash-icon" src="icon192.png" alt="Lina">
     <div class="splash-title">Ma Learn English</div>
     <div class="splash-subtitle">Validez une phrase pour commencer</div>
     <div class="splash-card" onclick="splashTap()">
-      <div class="splash-phrase-label" id="splash-label">🇬🇧 Appuyez pour révéler la traduction française</div>
+      <div class="splash-phrase-label" id="splash-label">🇬🇧 Appuyez pour révéler</div>
       <div class="splash-phrase-en" id="splash-en"></div>
       <button class="splash-sound-btn" onclick="event.stopPropagation();splashSpeak()" id="splash-sound">🔊</button>
       <div class="splash-phrase-fr" id="splash-fr"></div>
@@ -138,26 +120,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         <div class="splash-hint-dot" id="dot3"></div>
       </div>
     </div>
-    <button class="splash-enter-btn" id="splash-enter" onclick="enterApp()">Entrer dans l'app →</button>
-  </div>
-</div>
-
-<!-- SETTINGS -->
-<div id="settings-modal" class="settings-modal">
-  <div class="settings-panel">
-    <div class="settings-header">
-      <h2>Paramètres</h2>
-      <button style="width:34px;height:34px;border:none;background:var(--surface2);font-size:16px;cursor:pointer;border-radius:8px;" onclick="closeSettings()">✕</button>
-    </div>
-    <div class="settings-body">
-      <div class="settings-item">
-        <label>🔑 Clé Groq</label>
-        <input type="password" id="groq-key" placeholder="gsk_...">
-        <div style="font-size:12px;color:var(--text3);margin-top:8px;">Obtenir gratuit sur console.groq.com (30/jour)</div>
-      </div>
-      <button class="settings-btn" onclick="saveGroqKey()">Sauvegarder</button>
-      <button class="settings-btn" style="background:#c0392b;" onclick="resetData()">🗑️ Réinitialiser</button>
-    </div>
+    <button class="splash-enter-btn" id="splash-enter" onclick="enterApp()">Entrer →</button>
   </div>
 </div>
 
@@ -165,42 +128,47 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 <div class="app">
 <div class="header">
   <h1>👑 Ma Learn English</h1>
-  <div class="header-actions">
-    <button class="icon-btn" onclick="openSettings()">⚙️</button>
-  </div>
 </div>
 
 <div class="main">
 
-<!-- VOCAB SECTION -->
-<section id="section-vocab" class="section active">
-  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Mots: <strong id="stat-count">0</strong></div>
-  <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-    <input type="text" id="search" placeholder="Chercher..." onkeyup="filterVocab()" style="flex: 1; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none;">
-    <button onclick="resetSearch()" style="padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 12px; font-weight: 600; cursor: pointer;">Reset</button>
+<!-- TRANSLATOR SECTION -->
+<section id="section-translator" class="section">
+  <div class="trad-lang-bar">
+    <button class="trad-lang-btn active" id="btn-lang-en" onclick="setLang('en')">🇬🇧 English</button>
+    <button onclick="swapLang()" style="padding: 8px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); cursor: pointer; font-size: 14px;">⇄</button>
+    <button class="trad-lang-btn" id="btn-lang-fr" onclick="setLang('fr')">🇫🇷 Français</button>
   </div>
-  <div id="vocab-cards" class="cards-grid"></div>
-  <div style="margin-top: 20px;">
-    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Ajouter un mot</h3>
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-      <input type="text" id="new-word" placeholder="Mot en anglais..." style="padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none;">
-      <input type="text" id="new-trans" placeholder="Traduction française..." style="padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none;">
-      <button onclick="addWord()" style="padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%;">+ Ajouter</button>
-    </div>
+  <div class="trad-input-wrap">
+    <textarea class="trad-textarea" id="trad-input" placeholder="Entrez un mot ou une phrase..." oninput="onTradInput()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();translate();}"></textarea>
+    <button class="trad-clear" id="trad-clear-btn" onclick="clearTrad()">✕</button>
+  </div>
+  <button class="btn-primary" onclick="translate()" style="width:100%;margin-bottom:14px;">🔍 Traduire</button>
+  <div id="trad-result"></div>
+  <div style="margin-top:16px;">
+    <div style="font-size:11px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">Récentes</div>
+    <div class="trad-history" id="trad-hist"></div>
   </div>
 </section>
 
+<!-- VOCAB SECTION -->
+<section id="section-vocab" class="section">
+  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Mots: <strong id="stat-count">0</strong></div>
+  <input type="text" id="search" placeholder="Chercher..." onkeyup="filterVocab()" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; outline: none; margin-bottom: 12px;">
+  <div id="vocab-cards" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;"></div>
+</section>
+
 <!-- DIALOGUE SECTION -->
-<section id="section-dialogue" class="section">
-  <div class="mode-selector" id="modes"></div>
-  <div class="dial-header">
-    <button class="lang-btn" id="lang-btn" onclick="toggleLang()" style="color: white; background: var(--primary);">🇬🇧 English</button>
-    <button class="lang-btn" id="mic-btn" style="flex: 1; text-align: center;" onclick="toggleMic()">🎤 Parler</button>
+<section id="section-dialogue" class="section active">
+  <div id="dial-modes" style="display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto;"></div>
+  <div style="display: flex; gap: 6px; margin-bottom: 12px;">
+    <button class="btn-primary" id="lang-btn" onclick="toggleLang()" style="flex: 1; background: var(--primary); color: white;">🇬🇧 English</button>
+    <button class="btn-primary" id="mic-btn" onclick="toggleMic()" style="flex: 1; background: var(--surface); color: var(--text); border: 0.5px solid var(--border);">🎤 Parler</button>
   </div>
-  <div class="dial-messages" id="dial-messages"></div>
-  <div class="dial-input-wrap">
-    <textarea id="dial-input" placeholder="Tape ou parle..." rows="2" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendDialogue();}"></textarea>
-    <button class="dial-btn" id="send-btn" onclick="sendDialogue()" style="padding: 10px 16px; border: none; background: var(--primary); color: white; cursor: pointer; height: 100%; font-weight: 600;">➤</button>
+  <div id="dial-messages" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-height: 380px; overflow-y: auto; padding: 10px 0;"></div>
+  <div style="display: flex; gap: 8px; padding: 12px; background: var(--surface); border-top: 0.5px solid var(--border);">
+    <textarea id="dial-input" placeholder="Tape ou parle..." style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none; min-height: 40px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendDialogue();}"></textarea>
+    <button onclick="sendDialogue()" style="padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; font-weight: 600; height: 100%;">➤</button>
   </div>
 </section>
 
@@ -214,11 +182,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
 <!-- BOTTOM NAV -->
 <div class="bottom-nav">
-  <button class="nav-item active" onclick="switchSection('vocab')">
-    <div style="font-size: 22px;">📚</div>
-    <div>Vocab</div>
-  </button>
-  <button class="nav-item" onclick="switchSection('dialogue')">
+  <button class="nav-item active" onclick="switchSection('dialogue')">
     <div style="font-size: 22px;">💬</div>
     <div>Dialogue</div>
   </button>
@@ -226,12 +190,24 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     <div style="font-size: 22px;">❓</div>
     <div>Quiz</div>
   </button>
+  <button class="nav-item" onclick="switchSection('vocab')">
+    <div style="font-size: 22px;">📚</div>
+    <div>Vocab</div>
+  </button>
+  <button class="nav-item" onclick="switchSection('translator')">
+    <div style="font-size: 22px;">🌐</div>
+    <div>Traducteur</div>
+  </button>
 </div>
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
+let dicoData = [], tradLang = 'en', tradHistory = [], tradTimer = null, splashStep = 0, splashPhrase = null;
+let dialHistory = [], dialMode = 'free', dialLang = 'en', dialMicActive = false, dialAutoListen = false;
+let quizPool = [], quizStats = { correct: 0, total: 0 }, currentQuiz = null;
+
 const VOCAB = [
   { word: 'vocabulary', trans: 'vocabulaire' }, { word: 'pronunciation', trans: 'prononciation' }, { word: 'grammar', trans: 'grammaire' },
   { word: 'communicate', trans: 'communiquer' }, { word: 'understand', trans: 'comprendre' }, { word: 'difficult', trans: 'difficile' },
@@ -272,26 +248,18 @@ const DIAL_STARTER = {
   debate: `I'd love to hear your thoughts on something.`
 };
 
-let dicoData = [], quizStats = { correct: 0, total: 0 }, dialHistory = [], dialMode = 'free', dialLang = 'en', dialMicActive = false, dialAutoListen = false;
-let splashStep = 0, splashPhrase = null;
-
 function load() {
   dicoData = JSON.parse(localStorage.getItem('lina_dico') || '[]');
-  // Ajouter les mots par défaut s'ils n'existent pas
-  VOCAB.forEach(v => {
-    if (!dicoData.find(d => d.word === v.word)) {
-      dicoData.push(v);
-    }
-  });
+  VOCAB.forEach(v => { if (!dicoData.find(d => d.word === v.word)) dicoData.push(v); });
+  tradHistory = JSON.parse(localStorage.getItem('lina_trad_hist') || '[]');
+  tradLang = localStorage.getItem('lina_trad_lang') || 'en';
   quizStats = JSON.parse(localStorage.getItem('lina_quiz') || '{"correct":0,"total":0}');
+  updateLangBtns();
   renderVocab();
+  renderTradHist();
   initQuiz();
+  initDialogue();
   initSplash();
-}
-
-function save() {
-  localStorage.setItem('lina_dico', JSON.stringify(dicoData));
-  localStorage.setItem('lina_quiz', JSON.stringify(quizStats));
 }
 
 function initSplash() {
@@ -300,12 +268,9 @@ function initSplash() {
   const entry = pool[Math.floor(Math.random() * pool.length)];
   splashPhrase = { word: entry.word, en: entry.word, fr: entry.trans };
   document.getElementById('splash-en').textContent = entry.word;
-  document.getElementById('splash-label').textContent = '🇬🇧 Appuyez pour révéler la traduction française';
+  document.getElementById('splash-label').textContent = '🇬🇧 Appuyez pour révéler';
   splashStep = 0;
-  setTimeout(() => {
-    if (window.speechSynthesis) speak(entry.word, 'en');
-    document.getElementById('splash-sound').style.display = 'inline-block';
-  }, 600);
+  setTimeout(() => { if (window.speechSynthesis) speak(entry.word, 'en'); document.getElementById('splash-sound').style.display = 'inline-block'; }, 600);
 }
 
 function splashSpeak() {
@@ -316,10 +281,9 @@ function splashSpeak() {
 
 function splashTap() {
   if (splashStep === 0) {
-    const frEl = document.getElementById('splash-fr');
-    frEl.textContent = splashPhrase.fr;
-    frEl.style.display = 'block';
-    document.getElementById('splash-label').textContent = '🇫🇷 Traduction révélée — tapez encore pour entrer';
+    document.getElementById('splash-fr').textContent = splashPhrase.fr;
+    document.getElementById('splash-fr').style.display = 'block';
+    document.getElementById('splash-label').textContent = '🇫🇷 Tapez encore pour entrer';
     document.getElementById('dot1').classList.remove('active');
     document.getElementById('dot2').classList.add('active');
     document.getElementById('splash-enter').style.display = 'block';
@@ -337,56 +301,347 @@ function enterApp() {
   setTimeout(() => { splash.style.display = 'none'; }, 500);
 }
 
-function speak(text, lang, onEnd) {
-  if (!('speechSynthesis' in window)) return;
+function speak(text, lang, onDone) {
+  if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = lang === 'en' ? 'en-GB' : 'fr-FR';
-  utterance.rate = 0.95;
-  if (onEnd) utterance.onend = onEnd;
-  window.speechSynthesis.speak(utterance);
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = lang === 'en' ? 'en-GB' : 'fr-FR';
+  u.rate = 0.9;
+  if (onDone) u.onend = onDone;
+  window.speechSynthesis.speak(u);
+}
+
+function setLang(lang) {
+  tradLang = lang;
+  localStorage.setItem('lina_trad_lang', tradLang);
+  updateLangBtns();
+  document.getElementById('trad-result').innerHTML = '';
+  document.getElementById('trad-input').value = '';
+  document.getElementById('trad-input').focus();
+}
+
+function swapLang() {
+  tradLang = tradLang === 'en' ? 'fr' : 'en';
+  localStorage.setItem('lina_trad_lang', tradLang);
+  updateLangBtns();
+}
+
+function updateLangBtns() {
+  document.getElementById('btn-lang-en').classList.toggle('active', tradLang === 'en');
+  document.getElementById('btn-lang-fr').classList.toggle('active', tradLang === 'fr');
+}
+
+function onTradInput() {
+  const val = document.getElementById('trad-input').value;
+  document.getElementById('trad-clear-btn').classList.toggle('visible', val.length > 0);
+  clearTimeout(tradTimer);
+  if (val.trim().length >= 2) tradTimer = setTimeout(translate, 600);
+  else document.getElementById('trad-result').innerHTML = '';
+}
+
+function clearTrad() {
+  document.getElementById('trad-input').value = '';
+  document.getElementById('trad-clear-btn').classList.remove('visible');
+  document.getElementById('trad-result').innerHTML = '';
+}
+
+function parseGroqJSON(raw) {
+  if (!raw) return null;
+  let clean = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+  const start = clean.indexOf('{');
+  const end = clean.lastIndexOf('}');
+  if (start === -1 || end === -1) return null;
+  clean = clean.slice(start, end + 1);
+  clean = clean.replace(/[\u0000-\u001F\u007F]/g, ' ');
+  try { return JSON.parse(clean); } catch(e) { return null; }
+}
+
+async function translate() {
+  const word = document.getElementById('trad-input').value.trim();
+  if (!word) return;
+  const el = document.getElementById('trad-result');
+  el.innerHTML = `<div class="trad-loading">⏳ Traduction en cours...</div>`;
+  const srcLang = tradLang;
+  const tgtLang = tradLang === 'en' ? 'fr' : 'en';
+
+  const histKey = word + '|' + srcLang;
+  if (!tradHistory.find(h => h.key === histKey)) {
+    tradHistory.unshift({ key: histKey, word, lang: srcLang });
+    if (tradHistory.length > 12) tradHistory.pop();
+    localStorage.setItem('lina_trad_hist', JSON.stringify(tradHistory));
+    renderTradHist();
+  }
+
+  try {
+    const groqKey = localStorage.getItem('groq_key') || '';
+    let mainTrans = '';
+    let alts = [];
+
+    if (groqKey) {
+      const fromLabel = srcLang === 'en' ? 'English' : 'French';
+      const toLabel = tgtLang === 'en' ? 'English' : 'French';
+      const prompt = `You are a professional ${fromLabel}→${toLabel} translator. Translate: "${word}". Reply ONLY JSON: {"main":"translation","alts":["alt1","alt2"]}`;
+      const gRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + groqKey },
+        body: JSON.stringify({ model: 'mixtral-8x7b-32768', max_tokens: 200, messages: [{ role: 'user', content: prompt }] })
+      });
+      const gData = await gRes.json();
+      const parsed = parseGroqJSON(gData.choices?.[0]?.message?.content || '{}');
+      mainTrans = parsed?.main || '';
+      alts = parsed?.alts || [];
+      if (!mainTrans) throw new Error('Empty');
+    } else {
+      const langPair = `${srcLang}|${tgtLang}`;
+      const mmUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=${langPair}`;
+      const mmRes = await fetch(mmUrl);
+      const mmData = await mmRes.json();
+      mainTrans = mmData.responseData?.translatedText || '';
+      if (!mainTrans) throw new Error('No translation');
+      const matches = mmData.matches || [];
+      alts = [...new Set(matches.filter(m => m.translation && m.translation.toLowerCase() !== mainTrans.toLowerCase()).map(m => m.translation).slice(0, 6))];
+    }
+
+    let phonetic = '';
+    let examples = [];
+    if (srcLang === 'en' && word.split(' ').length === 1) {
+      try {
+        const fdRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`);
+        if (fdRes.ok) {
+          const fdData = await fdRes.json();
+          const entry = fdData[0];
+          phonetic = entry.phonetics?.find(p => p.text)?.text || '';
+          entry.meanings?.forEach(m => {
+            m.definitions?.forEach(d => {
+              if (d.example) examples.push({ en: d.example, type: m.partOfSpeech });
+            });
+          });
+          examples = examples.slice(0, 4);
+        }
+      } catch(e) {}
+    }
+
+    if (srcLang === 'fr' && mainTrans && mainTrans.split(' ').length === 1) {
+      try {
+        const fdRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(mainTrans.toLowerCase())}`);
+        if (fdRes.ok) {
+          const fdData = await fdRes.json();
+          const entry = fdData[0];
+          phonetic = entry.phonetics?.find(p => p.text)?.text || '';
+          entry.meanings?.forEach(m => {
+            m.definitions?.forEach(d => {
+              if (d.example) examples.push({ en: d.example, type: m.partOfSpeech });
+            });
+          });
+          examples = examples.slice(0, 4);
+        }
+      } catch(e) {}
+    }
+
+    const copyEsc = mainTrans.replace(/'/g, "\\'");
+    let h = `<div class="trad-result-card">
+      <div class="trad-result-header">
+        <div>
+          <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">${tgtLang === 'fr' ? '🇫🇷 Traduction' : '🇬🇧 Translation'}</div>
+          <div class="trad-result-text">${mainTrans}</div>
+        </div>
+        <button class="trad-copy-btn" onclick="copyTrad(this,'${copyEsc}')">📋 Copier</button>
+      </div>`;
+
+    if (phonetic) {
+      h += `<div class="trad-phonetic">${srcLang === 'en' ? word : mainTrans} ${phonetic}</div>`;
+    }
+
+    if (alts.length > 0) {
+      h += `<div class="trad-alt-wrap">
+        <div class="trad-alt-label">Autres traductions</div>
+        <div>${alts.map(a => {
+          const ae = a.replace(/'/g, "\\'");
+          return `<span class="trad-alt-chip" onclick="useAlt('${ae}')">${a}</span>`;
+        }).join('')}</div>
+      </div>`;
+    }
+
+    h += `</div>`;
+
+    if (examples.length > 0) {
+      h += `<div class="trad-examples">
+        <div class="trad-examples-header">
+          <h4>Exemples d'utilisation</h4>
+          <span style="font-size:11px;color:var(--text3);">${examples.length} ex.</span>
+        </div>`;
+      const searchWord = srcLang === 'en' ? word : mainTrans;
+      examples.forEach(ex => {
+        const re = new RegExp(`\\b(${searchWord.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})\\b`, 'gi');
+        const highlighted = ex.en.replace(re, '<span class="trad-ex-highlight">$1</span>');
+        h += `<div class="trad-example">
+          <div class="trad-ex-en">${highlighted}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;">${ex.type}</div>
+        </div>`;
+      });
+      h += `</div>`;
+    }
+
+    const inDico = dicoData.find(d => d.word.toLowerCase() === (srcLang === 'en' ? word : mainTrans).toLowerCase());
+    if (!inDico && word.split(' ').length <= 3) {
+      const engWord = srcLang === 'en' ? word : mainTrans;
+      const frWord = srcLang === 'en' ? mainTrans : word;
+      const ew = engWord.replace(/'/g, "\\'");
+      const fw = frWord.replace(/'/g, "\\'");
+      h += `<div class="trad-add-bar">
+        <span>Ajouter "<strong>${engWord}</strong>" ?</span>
+        <button class="btn-primary" style="font-size:12px;padding:7px 14px;" onclick="addFromTrad('${ew}','${fw}')">+ Ajouter</button>
+      </div>`;
+    }
+
+    el.innerHTML = h;
+  } catch(err) {
+    el.innerHTML = `<div class="trad-error">❌ Traduction introuvable pour "<strong>${word}</strong>". Vérifiez l'orthographe.</div>`;
+  }
+}
+
+function copyTrad(btn, text) {
+  navigator.clipboard.writeText(text);
+  btn.textContent = '✓ Copié !';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('copied'); }, 1800);
+  showToast('✅ Copié !');
+}
+
+function useAlt(text) {
+  const el = document.querySelector('.trad-result-text');
+  if (el) el.textContent = text;
+  const copyBtn = document.querySelector('.trad-copy-btn');
+  if (copyBtn) copyBtn.onclick = () => copyTrad(copyBtn, text);
+}
+
+function addFromTrad(engWord, frWord) {
+  if (!engWord || !frWord) { showToast('⚠️ Erreur'); return; }
+  if (dicoData.some(d => d.word.toLowerCase() === engWord.toLowerCase())) { showToast('⚠️ Déjà existant'); return; }
+  dicoData.unshift({ word: engWord, trans: frWord, custom: true });
+  localStorage.setItem('lina_dico', JSON.stringify(dicoData));
+  showToast(`✅ "${engWord}" ajouté !`);
+  const bar = document.querySelector('.trad-add-bar');
+  if (bar) bar.innerHTML = `<span style="color:var(--green);">✓ <strong>${engWord}</strong> → ${frWord} ajouté</span>`;
+}
+
+function renderTradHist() {
+  const h = document.getElementById('trad-hist');
+  if (tradHistory.length === 0) { h.innerHTML = ''; return; }
+  h.innerHTML = tradHistory.map(t => `<button class="trad-hist-btn" onclick="useTradHist('${t.word.replace(/'/g, "\\'")}')">${t.word}</button>`).join('');
+}
+
+function useTradHist(word) {
+  document.getElementById('trad-input').value = word;
+  translate();
 }
 
 function renderVocab() {
   const search = document.getElementById('search').value.toLowerCase();
   const filtered = dicoData.filter(d => d.word.includes(search) || d.trans.includes(search));
-  const cards = document.getElementById('vocab-cards');
   document.getElementById('stat-count').textContent = dicoData.length;
-  cards.innerHTML = filtered.map(d => `
-    <div class="flip-card" onclick="this.classList.toggle('flipped')">
-      <div class="flip-inner">
-        <div class="flip-front"><div class="flip-word">${d.word}</div></div>
-        <div class="flip-back"><div class="flip-trans">${d.trans}</div></div>
+  document.getElementById('vocab-cards').innerHTML = filtered.map(d => `
+    <div style="perspective: 800px; cursor: pointer; height: 100px;" onclick="this.classList.toggle('flipped')" class="flip-card">
+      <div style="position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.38s;" class="flip-inner">
+        <div style="position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 8px; text-align: center; background: var(--surface);">
+          <div style="font-size: 14px; font-weight: 600; color: var(--text);">${d.word}</div>
+        </div>
+        <div style="position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 8px; text-align: center; background: var(--primary-light); transform: rotateY(180deg);">
+          <div style="font-size: 12px; color: var(--primary); font-weight: 500;">${d.trans}</div>
+        </div>
       </div>
     </div>
   `).join('');
 }
 
 function filterVocab() { renderVocab(); }
-function resetSearch() { document.getElementById('search').value = ''; filterVocab(); }
-function addWord() {
-  const w = document.getElementById('new-word').value.trim().toLowerCase();
-  const t = document.getElementById('new-trans').value.trim();
-  if (!w || !t || dicoData.some(d => d.word === w)) { showToast('⚠️ Erreur'); return; }
-  dicoData.push({ word: w, trans: t });
-  save();
-  renderVocab();
-  initQuiz();
-  document.getElementById('new-word').value = document.getElementById('new-trans').value = '';
-  showToast('✅ Mot ajouté');
+
+function switchSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  event.target.closest('.nav-item').classList.add('active');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function initQuiz() {
+  quizPool = [...dicoData, ...VOCAB].filter(w => w.word && w.trans).sort(() => Math.random() - 0.5);
+  document.getElementById('quiz-correct').textContent = quizStats.correct;
+  document.getElementById('quiz-score').textContent = quizStats.total > 0 ? Math.round(quizStats.correct * 100 / quizStats.total) + '%' : '0%';
+  if (quizPool.length === 0) {
+    document.getElementById('quiz-container').innerHTML = '<div style="text-align:center;padding:30px;"><div style="font-size:48px;">❓</div><div>Ajoute des mots</div></div>';
+    return;
+  }
+  showQuiz();
+}
+
+function showQuiz() {
+  if (quizPool.length === 0) {
+    document.getElementById('quiz-container').innerHTML = `<div style="text-align:center;padding:30px;"><div style="font-size:48px;">🎉</div><div style="font-size:16px;font-weight:600;margin-bottom:12px;">Score: ${quizStats.correct}/${quizStats.total}</div><button onclick="initQuiz()" class="btn-primary">Recommencer</button></div>`;
+    return;
+  }
+  const idx = Math.floor(Math.random() * quizPool.length);
+  const w = quizPool[idx];
+  quizPool.splice(idx, 1);
+  const opts = [w.trans];
+  const allTrans = [...dicoData, ...VOCAB].map(d => d.trans);
+  while (opts.length < 4) {
+    const o = allTrans[Math.floor(Math.random() * allTrans.length)];
+    if (!opts.includes(o)) opts.push(o);
+  }
+  opts.sort(() => Math.random() - 0.5);
+  currentQuiz = { w: w.word, correct: w.trans, opts };
+  document.getElementById('quiz-container').innerHTML = `
+    <div style="background: var(--surface); border-radius: 10px; border: 0.5px solid var(--border); padding: 20px;">
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Justes: ${quizStats.correct} | ${quizStats.total>0?Math.round(quizStats.correct*100/quizStats.total)+'%':'0%'}</div>
+      <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;">Qu'est-ce que "<strong>${currentQuiz.w}</strong>" ?</div>
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        ${currentQuiz.opts.map(o => `<button onclick="answerQuiz('${o.replace(/'/g, "\\'")}')" style="padding:12px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:14px;color:var(--text);">${o}</button>`).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function answerQuiz(a) {
+  quizStats.total++;
+  if (a === currentQuiz.correct) {
+    quizStats.correct++;
+    showToast('✅');
+  } else {
+    showToast('❌ Réponse: ' + currentQuiz.correct);
+  }
+  document.getElementById('quiz-correct').textContent = quizStats.correct;
+  document.getElementById('quiz-score').textContent = Math.round(quizStats.correct * 100 / quizStats.total) + '%';
+  localStorage.setItem('lina_quiz', JSON.stringify(quizStats));
+  setTimeout(showQuiz, 800);
 }
 
 function initDialogue() {
-  document.getElementById('modes').innerHTML = Object.entries(MODES).map(([k, v]) => `
-    <button class="mode-btn ${k==='free'?'active':''}" onclick="setMode('${k}')">${v}</button>
+  document.getElementById('dial-modes').innerHTML = Object.entries(MODES).map(([k, v]) => `
+    <button class="btn-primary ${k==='free'?'active':''}" onclick="setMode('${k}')" style="flex: 0 0 auto; font-size: 12px; padding: 6px 12px; ${k==='free'?'background: var(--primary); color: white;':'background: var(--surface); color: var(--text2); border: 0.5px solid var(--border);'}">${v}</button>
   `).join('');
   resetDialogue();
 }
 
 function setMode(m) {
   dialMode = m;
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  document.querySelectorAll('#dial-modes button').forEach(b => {
+    if (b.textContent.includes(MODES[m])) {
+      b.style.background = 'var(--primary)';
+      b.style.color = 'white';
+      b.style.borderColor = 'var(--primary)';
+    } else {
+      b.style.background = 'var(--surface)';
+      b.style.color = 'var(--text2)';
+      b.style.border = '0.5px solid var(--border)';
+    }
+  });
   resetDialogue();
 }
 
@@ -407,7 +662,9 @@ function toggleLang() {
   const btn = document.getElementById('lang-btn');
   btn.textContent = dialLang === 'bilingual' ? '🇫🇷 Bilingual' : '🇬🇧 English';
   btn.style.background = dialLang === 'bilingual' ? 'var(--primary)' : 'var(--surface)';
-  btn.style.color = dialLang === 'bilingual' ? 'white' : 'var(--primary)';
+  btn.style.color = dialLang === 'bilingual' ? 'white' : 'var(--text)';
+  if (dialLang === 'bilingual') btn.style.border = 'none';
+  else btn.style.border = '0.5px solid var(--border)';
 }
 
 function toggleMic() {
@@ -431,12 +688,16 @@ function updateMicBtn(state) {
   if (state === 'listening') {
     btn.textContent = '🔴 Listening';
     btn.style.background = 'rgba(231,76,60,.1)';
+    btn.style.color = 'var(--text)';
   } else if (state === 'waiting') {
     btn.textContent = '⏳ Thinking';
     btn.style.background = 'rgba(243,156,18,.1)';
+    btn.style.color = 'var(--text)';
   } else {
     btn.textContent = '🎤 Parler';
     btn.style.background = 'var(--surface)';
+    btn.style.color = 'var(--text)';
+    btn.style.border = '0.5px solid var(--border)';
   }
 }
 
@@ -480,62 +741,29 @@ function addDialMsg(role, text) {
   const box = document.getElementById('dial-messages');
   const isUser = role === 'user';
   const div = document.createElement('div');
-  div.className = `message ${role}`;
+  div.style.cssText = `display:flex; flex-direction:column; gap: 4px; align-items: ${isUser ? 'flex-end' : 'flex-start'};`;
   const bubble = document.createElement('div');
-  bubble.className = 'message-bubble';
+  bubble.style.cssText = `max-width: 85%; padding: 10px 14px; border-radius: ${isUser ? '18px 18px 4px 18px' : '18px 18px 18px 4px'}; font-size: 14px; line-height: 1.5; background: ${isUser ? 'var(--primary)' : 'var(--surface2)'}; color: ${isUser ? 'white' : 'var(--text)'}; ${!isUser ? 'border: 0.5px solid var(--border); cursor: pointer;' : ''}`;
   bubble.textContent = text;
   div.appendChild(bubble);
 
   if (!isUser) {
-    const trans = document.createElement('div');
-    trans.className = 'message-trans';
-    trans.textContent = '⏳ Traduction…';
-    bubble.appendChild(trans);
-    bubble.onclick = async () => {
-      if (trans.style.display === 'none') {
-        trans.style.display = 'block';
-      } else {
-        if (trans.textContent === '⏳ Traduction…') {
-          trans.textContent = await dialTranslate(text);
-        }
-        trans.style.display = 'none';
-      }
-    };
-    const btn = document.createElement('button');
-    btn.className = 'sound-btn';
-    btn.textContent = '🔊';
-    btn.onclick = (e) => { e.stopPropagation(); speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); };
-    div.appendChild(btn);
+    const soundBtn = document.createElement('button');
+    soundBtn.style.cssText = 'background: none; border: none; font-size: 13px; cursor: pointer; margin-top: 4px;';
+    soundBtn.textContent = '🔊';
+    soundBtn.onclick = (e) => { e.stopPropagation(); speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); };
+    div.appendChild(soundBtn);
     setTimeout(() => { speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); }, 200);
   }
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
 }
 
-async function dialTranslate(text) {
-  try {
-    const key = localStorage.getItem('groq_key') || '';
-    if (key) {
-      const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-        body: JSON.stringify({ model: 'mixtral-8x7b-32768', max_tokens: 150, messages: [{ role: 'user', content: `Translate to French. Reply ONLY with translation:\n"${text}"` }] })
-      });
-      const d = await r.json();
-      const tr = d.choices?.[0]?.message?.content?.trim() || '';
-      if (tr) return '🇫🇷 ' + tr;
-    }
-    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|fr`);
-    const d = await r.json();
-    return '🇫🇷 ' + (d.responseData?.translatedText || 'N/A');
-  } catch { return '🇫🇷 Erreur'; }
-}
-
 async function sendDialogue() {
   const input = document.getElementById('dial-input');
   const text = input.value.trim();
   if (!text) return;
-  const btn = document.getElementById('send-btn');
+  const btn = document.querySelector('button[onclick="sendDialogue()"]');
   btn.disabled = true;
   input.value = '';
   addDialMsg('user', text);
@@ -544,7 +772,7 @@ async function sendDialogue() {
   try {
     const key = localStorage.getItem('groq_key') || '';
     if (!key) {
-      addDialMsg('assistant', '⚠️ Ajoute ta clé Groq dans Paramètres ⚙️');
+      addDialMsg('assistant', '⚠️ Ajoute ta clé Groq dans les paramètres');
       btn.disabled = false;
       return;
     }
@@ -563,105 +791,9 @@ async function sendDialogue() {
   btn.disabled = false;
 }
 
-let quizPool = [];
-function initQuiz() {
-  quizPool = [...dicoData, ...VOCAB].filter(w => w.word && w.trans).sort(() => Math.random() - 0.5);
-  if (quizPool.length === 0) {
-    document.getElementById('quiz-container').innerHTML = '<div style="text-align:center;padding:30px;"><div style="font-size:48px;">❓</div><div>Ajoute des mots</div></div>';
-    return;
-  }
-  showQuiz();
-}
-
-let currentQuiz = null;
-function showQuiz() {
-  if (quizPool.length === 0) {
-    document.getElementById('quiz-container').innerHTML = `<div style="text-align:center;padding:30px;"><div style="font-size:48px;">🎉</div><div style="font-size:16px;font-weight:600;margin-bottom:12px;">Score: ${quizStats.correct}/${quizStats.total}</div><button onclick="initQuiz()" style="padding:10px 16px;border-radius:8px;border:none;background:var(--primary);color:white;font-size:14px;font-weight:600;cursor:pointer;">Recommencer</button></div>`;
-    return;
-  }
-  const idx = Math.floor(Math.random() * quizPool.length);
-  const w = quizPool[idx];
-  quizPool.splice(idx, 1);
-  const opts = [w.trans];
-  const allTrans = [...dicoData, ...VOCAB].map(d => d.trans);
-  while (opts.length < 4) {
-    const o = allTrans[Math.floor(Math.random() * allTrans.length)];
-    if (!opts.includes(o)) opts.push(o);
-  }
-  opts.sort(() => Math.random() - 0.5);
-  currentQuiz = { w: w.word, correct: w.trans, opts };
-  document.getElementById('quiz-container').innerHTML = `
-    <div style="background: var(--surface); border-radius: 10px; border: 0.5px solid var(--border); padding: 20px;">
-      <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Justes: ${quizStats.correct} | ${quizStats.total>0?Math.round(quizStats.correct*100/quizStats.total)+'%':'0%'}</div>
-      <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;">Qu'est-ce que "<strong>${currentQuiz.w}</strong>" ?</div>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        ${currentQuiz.opts.map(o => `<button style="padding:12px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:14px;color:var(--text);" onclick="answerQuiz('${o.replace(/'/g, "\\'")}')">${o}</button>`).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function answerQuiz(a) {
-  quizStats.total++;
-  if (a === currentQuiz.correct) {
-    quizStats.correct++;
-    showToast('✅');
-  } else {
-    showToast('❌ Réponse: ' + currentQuiz.correct);
-  }
-  document.getElementById('quiz-correct').textContent = quizStats.correct;
-  document.getElementById('quiz-score').textContent = Math.round(quizStats.correct * 100 / quizStats.total) + '%';
-  save();
-  setTimeout(showQuiz, 800);
-}
-
-function switchSection(name) {
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('section-' + name).classList.add('active');
-  event.target.closest('.nav-item').classList.add('active');
-}
-
-function openSettings() {
-  document.getElementById('groq-key').value = localStorage.getItem('groq_key') || '';
-  document.getElementById('settings-modal').classList.add('show');
-}
-
-function closeSettings() {
-  document.getElementById('settings-modal').classList.remove('show');
-}
-
-function saveGroqKey() {
-  const key = document.getElementById('groq-key').value.trim();
-  if (!key.startsWith('gsk_')) { showToast('⚠️ Clé invalide'); return; }
-  localStorage.setItem('groq_key', key);
-  showToast('✅ Clé sauvegardée');
-  closeSettings();
-}
-
-function resetData() {
-  if (confirm('Réinitialiser TOUT ?')) {
-    dicoData = [];
-    quizStats = { correct: 0, total: 0 };
-    save();
-    load();
-    showToast('✅ Réinitialisé');
-  }
-}
-
-let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-}
-
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
 
 load();
-initDialogue();
 </script>
 </body>
 </html>
