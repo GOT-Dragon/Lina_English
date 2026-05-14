@@ -1,11 +1,11 @@
 {
-  "name": "My English App",
+  "name": "My Lina English",
   "short_name": "English",
   "description": "Mon application personnelle d'apprentissage de l'anglais",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#FF2D2D",
-  "theme_color": "#FF2D2D",
+  "background_color": "#ffffff",
+  "theme_color": "#185FA5",
   "orientation": "portrait-primary",
   "icons": [
     {
