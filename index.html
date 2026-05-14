@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Ma Learn English">
 <meta name="theme-color" content="#dc143c">
-<title>Ma Learn English - Collège Avancé</title>
+<title>Ma Learn English - Lina</title>
 <link rel="manifest" href="manifest.json">
 <style>
 :root {
@@ -23,8 +23,6 @@
   --text: #1a1a18;
   --text2: #5f5e5a;
   --text3: #9a9890;
-  --radius: 10px;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -38,118 +36,92 @@
     --primary: #ff4444;
   }
 }
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
-
 .app { display: flex; flex-direction: column; height: 100%; max-width: 680px; margin: 0 auto; }
-.main { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 12px 14px 80px; -webkit-overflow-scrolling: touch; }
-
-.header { padding: env(safe-area-inset-top, 0) 14px 0; background: var(--surface); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10; }
-.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 10px; }
+.main { flex: 1; overflow-y: auto; padding: 12px 14px 80px; -webkit-overflow-scrolling: touch; }
+.header { padding: 12px 14px; background: var(--surface); border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 10; }
 .header h1 { font-size: 18px; font-weight: 600; color: var(--primary); }
-.header-actions { display: flex; gap: 8px; }
-.icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); font-size: 16px; }
-.icon-btn:active { background: var(--surface2); }
-
+.header-actions { display: flex; gap: 8px; margin-top: 8px; }
+.icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; }
 .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 680px; background: var(--surface); border-top: 0.5px solid var(--border); display: flex; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100; }
 .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px 10px; cursor: pointer; color: var(--text3); font-size: 10px; gap: 3px; border: none; background: none; }
-.nav-item .nav-icon { font-size: 22px; line-height: 1; }
 .nav-item.active { color: var(--primary); }
-
 .section { display: none; }
 .section.active { display: block; }
 
-.dialogue-messages { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-height: 400px; overflow-y: auto; padding: 10px 0; }
-.message { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; animation: slideIn 0.3s ease; }
-.message.user { align-items: flex-end; }
-@keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* SPLASH */
+.splash { position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 999; }
+.splash.hidden { display: none; }
+.splash-icon { width: 120px; height: 120px; border-radius: 30px; background: white; background-size: cover; background-position: center; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.splash-word { font-size: 48px; font-weight: 700; color: white; margin-bottom: 20px; cursor: pointer; }
+.splash-trans { font-size: 24px; color: rgba(255,255,255,0.8); margin-bottom: 30px; min-height: 32px; display: none; cursor: pointer; }
+.splash-label { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+.splash-btn { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--primary); font-size: 15px; font-weight: 600; cursor: pointer; display: none; }
 
-.message-bubble { max-width: 85%; padding: 12px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; word-wrap: break-word; }
-.message.user .message-bubble { background: var(--primary); color: white; border-radius: 18px 18px 4px 18px; }
-.message.assistant .message-bubble { background: var(--surface2); color: var(--text); border-radius: 18px 18px 18px 4px; border: 0.5px solid var(--border); }
-.message.system .message-bubble { background: var(--primary-light); color: var(--primary); border-radius: 18px; border: 0.5px solid rgba(220, 20, 60, 0.3); }
-.message-translation { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); cursor: pointer; }
-
-.dialogue-input-wrap { display: flex; gap: 8px; padding: 12px; background: var(--surface); border-top: 0.5px solid var(--border); border-radius: var(--radius); }
-.dialogue-input { flex: 1; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; }
-.dialogue-input:focus { border-color: var(--primary); background: var(--surface); }
-.dialogue-send-btn { padding: 10px 16px; border-radius: var(--radius); border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; }
-.dialogue-send-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.mode-selector { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+/* DIALOGUE */
+.mode-selector { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; scrollbar-width: none; }
 .mode-selector::-webkit-scrollbar { display: none; }
 .mode-btn { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); white-space: nowrap; font-weight: 500; }
 .mode-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
+.dial-header { display: flex; gap: 8px; margin-bottom: 12px; }
+.lang-btn { padding: 6px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--primary); font-weight: 600; }
+.lang-btn.active { background: var(--primary); color: white; }
+
+.dial-messages { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-height: 380px; overflow-y: auto; padding: 10px 0; }
+.message { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.message.user { align-items: flex-end; }
+.message-bubble { max-width: 85%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
+.message.user .message-bubble { background: var(--primary); color: white; border-radius: 18px 18px 4px 18px; }
+.message.assistant .message-bubble { background: var(--surface2); color: var(--text); border-radius: 18px 18px 18px 4px; border: 0.5px solid var(--border); cursor: pointer; }
+.message-trans { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); display: none; }
+.sound-btn { background: none; border: none; font-size: 13px; cursor: pointer; margin-top: 4px; }
+
+.dial-input-wrap { display: flex; gap: 8px; padding: 12px; background: var(--surface); border-top: 0.5px solid var(--border); }
+.dial-input { flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; }
+.dial-input:focus { border-color: var(--primary); }
+.dial-btn { padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; cursor: pointer; color: var(--text2); font-weight: 600; }
+.dial-btn:disabled { opacity: 0.6; }
+
+/* VOCAB */
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
 .flip-card { perspective: 800px; cursor: pointer; height: 90px; }
 .flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.38s; }
 .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
-.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius); border: 0.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; text-align: center; }
+.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 0.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; text-align: center; }
 .flip-front { background: var(--surface); }
 .flip-back { background: var(--primary-light); transform: rotateY(180deg); }
-.flip-word { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
-.flip-trans { font-size: 12px; color: var(--primary); font-weight: 500; line-height: 1.3; }
+.flip-word { font-size: 13px; font-weight: 600; color: var(--text); }
+.flip-trans { font-size: 12px; color: var(--primary); font-weight: 500; }
 
-.stats-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
-.stat-chip { background: var(--surface2); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--text2); }
-.stat-chip strong { color: var(--text); font-weight: 600; }
+.add-wrap { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.add-input { padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none; }
+.add-btn { padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; }
 
-.quiz-card { background: var(--surface); border-radius: 10px; border: 0.5px solid var(--border); padding: 20px; box-shadow: var(--shadow); }
-.quiz-meta { font-size: 12px; color: var(--text3); margin-bottom: 14px; display: flex; justify-content: space-between; }
+/* QUIZ */
+.quiz-card { background: var(--surface); border-radius: 10px; border: 0.5px solid var(--border); padding: 20px; }
 .quiz-question { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
 .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-.quiz-opt { padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text); transition: all .2s; }
-.quiz-opt:active { background: var(--surface2); }
+.quiz-opt { padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text); }
 .quiz-opt.correct { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 600; }
 .quiz-opt.wrong { background: #FCEBEB; border-color: #A32D2D; color: #A32D2D; }
-.quiz-prog { height: 4px; background: var(--surface2); border-radius: 2px; margin-bottom: 14px; }
-.quiz-prog-bar { height: 100%; background: var(--primary); transition: width .3s; }
-
-.add-new-wrap { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-.add-new-input { padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none; }
-.add-new-input:focus { border-color: var(--primary); }
-.add-btn { padding: 10px 16px; border-radius: var(--radius); border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 500; cursor: pointer; width: 100%; }
-
-.search-wrap { display: flex; gap: 8px; margin-bottom: 12px; }
-.search-input { flex: 1; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface); font-size: 15px; color: var(--text); outline: none; }
-.search-input:focus { border-color: var(--primary); }
-.btn-primary { padding: 10px 16px; border-radius: var(--radius); border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 500; cursor: pointer; }
-
-.splash { position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 999; transition: opacity .5s; }
-.splash.hidden { opacity: 0; pointer-events: none; }
-.splash-icon { width: 120px; height: 120px; border-radius: 30px; background: white; background-size: cover; background-position: center; margin-bottom: 30px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
-.splash-word { font-size: 48px; font-weight: 700; color: white; margin-bottom: 20px; }
-.splash-trans { font-size: 24px; color: rgba(255,255,255,0.8); margin-bottom: 30px; min-height: 32px; display: none; }
-.splash-btn { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--primary); font-size: 15px; font-weight: 600; cursor: pointer; display: none; }
-.splash-dots { display: flex; gap: 8px; justify-content: center; margin-top: 30px; }
-.splash-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all .3s; }
-.splash-dot.active { background: white; transform: scale(1.3); }
 
 .settings-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; align-items: center; justify-content: flex-end; }
 .settings-modal.show { display: flex; }
 .settings-panel { background: var(--surface); width: 100%; max-width: 400px; height: 100%; overflow-y: auto; display: flex; flex-direction: column; }
 .settings-header { padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid var(--border); }
-.settings-header h2 { font-size: 18px; font-weight: 600; }
-.settings-close { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--surface2); font-size: 16px; cursor: pointer; }
 .settings-body { flex: 1; padding: 14px; }
 .settings-item { margin-bottom: 16px; }
 .settings-item label { display: block; font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 6px; }
-.settings-item input { width: 100%; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface2); font-size: 13px; color: var(--text); outline: none; font-family: monospace; }
-.settings-item input:focus { border-color: var(--primary); background: var(--surface); }
-.settings-item textarea { width: 100%; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface2); font-size: 12px; color: var(--text); outline: none; font-family: monospace; min-height: 80px; resize: vertical; }
-.settings-item textarea:focus { border-color: var(--primary); background: var(--surface); }
+.settings-item input { width: 100%; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 13px; color: var(--text); outline: none; font-family: monospace; }
+.settings-btn { width: 100%; padding: 10px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 8px; }
 .settings-info { font-size: 12px; color: var(--text3); margin-top: 8px; line-height: 1.6; }
-.settings-link { color: var(--primary); text-decoration: underline; cursor: pointer; }
-.settings-btn { width: 100%; padding: 10px; border-radius: var(--radius); border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 8px; }
-.settings-btn.danger { background: #c0392b; }
-
-.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 12px 16px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; pointer-events: none; transition: opacity .3s; }
-.toast.show { opacity: 1; }
 
 .empty-state { text-align: center; padding: 30px 20px; color: var(--text3); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; }
-.empty-text { font-size: 14px; color: var(--text2); }
+.toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 12px 16px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -158,427 +130,423 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
 <div id="splash" class="splash">
   <div style="text-align: center;">
     <div class="splash-icon" id="splash-icon"></div>
-    <div class="splash-word" id="splash-en">English</div>
-    <div class="splash-trans" id="splash-fr"></div>
-    <div style="margin-top:40px;">
-      <button class="splash-btn" id="splash-enter" onclick="splashTap()">Entrer</button>
-    </div>
-    <div class="splash-dots">
-      <div class="splash-dot active" id="dot1"></div>
-      <div class="splash-dot" id="dot2"></div>
-      <div class="splash-dot" id="dot3"></div>
-    </div>
+    <div class="splash-word" id="splash-en" onclick="speakSplashWord()">English</div>
+    <div class="splash-trans" id="splash-fr" onclick="splashShowTrans()"></div>
+    <div class="splash-label" id="splash-label">🔊 Appuyer pour écouter</div>
+    <button class="splash-btn" id="splash-enter" onclick="enterApp()">Entrer</button>
   </div>
 </div>
 
-<!-- SETTINGS MODAL -->
+<!-- SETTINGS -->
 <div id="settings-modal" class="settings-modal">
   <div class="settings-panel">
     <div class="settings-header">
       <h2>Paramètres</h2>
-      <button class="settings-close" onclick="closeSettings()">✕</button>
+      <button style="width:34px;height:34px;border:none;background:var(--surface2);font-size:16px;cursor:pointer;border-radius:8px;" onclick="closeSettings()">✕</button>
     </div>
     <div class="settings-body">
       <div class="settings-item">
-        <label>🔑 Clé Groq (pour le dialogue IA)</label>
+        <label>🔑 Clé Groq</label>
         <input type="password" id="groq-key" placeholder="gsk_...">
-        <div class="settings-info">
-          <strong>Obtenir une clé gratuite :</strong><br>
-          1. Va sur <span class="settings-link" onclick="window.open('https://console.groq.com/keys', '_blank')">console.groq.com/keys</span><br>
-          2. Crée un compte (gratuit)<br>
-          3. Clique "Create API Key"<br>
-          4. Copie-colle la clé ici<br>
-          <strong>✅ Gratuit : 30 requêtes/jour</strong>
-        </div>
+        <div class="settings-info">Obtenir gratuit sur console.groq.com (30/jour)</div>
       </div>
-      <button class="settings-btn" onclick="saveGroqKey()">💾 Sauvegarder la clé</button>
-      <hr style="margin: 14px 0; border: none; border-top: 0.5px solid var(--border);">
-      <button class="settings-btn danger" onclick="resetData()">🗑️ Réinitialiser tout</button>
-      <p style="font-size:11px;color:var(--text3);margin-top:12px;">Version: Collège B1 | Sécurisée</p>
+      <button class="settings-btn" onclick="saveGroqKey()">Sauvegarder</button>
+      <button class="settings-btn" style="background:#c0392b;" onclick="resetData()">🗑️ Réinitialiser</button>
     </div>
   </div>
 </div>
 
 <!-- APP -->
 <div class="app">
-
 <div class="header">
-  <div class="header-inner">
-    <h1>👑 Learn English - Collège</h1>
-    <div class="header-actions">
-      <button class="icon-btn" onclick="openSettings()">⚙️</button>
-    </div>
+  <h1>👑 Ma Learn English</h1>
+  <div class="header-actions">
+    <button class="icon-btn" onclick="openSettings()">⚙️</button>
   </div>
 </div>
 
 <div class="main">
 
+<!-- VOCAB SECTION -->
 <section id="section-vocab" class="section active">
-  <div class="stats-row">
-    <div class="stat-chip">Mots: <strong id="stat-vocab-count">0</strong></div>
+  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Mots: <strong id="stat-count">0</strong></div>
+  <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+    <input type="text" id="search" placeholder="Chercher..." onkeyup="filterVocab()" style="flex: 1; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none;">
+    <button onclick="resetSearch()" style="padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 12px; font-weight: 600; cursor: pointer;">Reset</button>
   </div>
-  
-  <div class="search-wrap">
-    <input type="text" class="search-input" id="search-vocab" placeholder="Chercher..." oninput="filterDico()">
-    <button class="btn-primary" onclick="resetSearch()">Reset</button>
-  </div>
-
-  <div id="vocab-empty" class="empty-state" style="display:none;">
+  <div id="vocab-empty" class="empty-state" style="display: none;">
     <div class="empty-icon">📚</div>
-    <div class="empty-text">Ajoute tes premiers mots !</div>
+    <div>Ajoute tes premiers mots</div>
   </div>
-
   <div id="vocab-cards" class="cards-grid"></div>
-
   <div style="margin-top: 20px;">
-    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text);">Ajouter un mot</h3>
-    <div class="add-new-wrap">
-      <input type="text" class="add-new-input" id="new-word" placeholder="Mot en anglais...">
-      <input type="text" class="add-new-input" id="new-trans" placeholder="Traduction française...">
-      <button class="add-btn" onclick="addNewWord()">+ Ajouter</button>
+    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">Ajouter un mot</h3>
+    <div class="add-wrap">
+      <input type="text" id="new-word" placeholder="Mot en anglais..." class="add-input">
+      <input type="text" id="new-trans" placeholder="Traduction française..." class="add-input">
+      <button class="add-btn" onclick="addWord()">+ Ajouter</button>
     </div>
   </div>
 </section>
 
+<!-- DIALOGUE SECTION -->
 <section id="section-dialogue" class="section">
-  <div class="mode-selector" id="dialogue-modes"></div>
-  <div class="dialogue-messages" id="dialogue-messages"></div>
-  <div class="dialogue-input-wrap">
-    <input type="text" class="dialogue-input" id="dialogue-input" placeholder="Ta réponse..." onkeypress="if(event.key==='Enter') sendDialogue()">
-    <button class="dialogue-send-btn" id="dialogue-send-btn" onclick="sendDialogue()">Envoyer</button>
+  <div class="mode-selector" id="modes"></div>
+  <div class="dial-header">
+    <button class="lang-btn active" id="lang-btn" onclick="toggleLang()" style="color: white; background: var(--primary);">🇬🇧 English</button>
+    <button class="lang-btn" id="mic-btn" style="flex: 1; text-align: center;" onclick="toggleMic()">🎤 Parler</button>
+  </div>
+  <div class="dial-messages" id="dial-messages"></div>
+  <div class="dial-input-wrap">
+    <textarea id="dial-input" placeholder="Tape ou parle..." rows="2" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendDialogue();}"></textarea>
+    <button class="dial-btn" id="send-btn" onclick="sendDialogue()" style="padding: 10px 16px; border: none; background: var(--primary); color: white; cursor: pointer; height: 100%; font-weight: 600;">➤</button>
   </div>
 </section>
 
+<!-- QUIZ SECTION -->
 <section id="section-quiz" class="section">
-  <div class="stats-row">
-    <div class="stat-chip">Justes: <strong id="quiz-correct">0</strong></div>
-    <div class="stat-chip">Score: <strong id="quiz-score">0%</strong></div>
-  </div>
+  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Justes: <strong id="quiz-correct">0</strong> | Score: <strong id="quiz-score">0%</strong></div>
   <div id="quiz-container"></div>
 </section>
 
 </div>
 
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
   <button class="nav-item active" onclick="switchSection('vocab')">
-    <div class="nav-icon">📚</div>
+    <div style="font-size: 22px;">📚</div>
     <div>Vocab</div>
   </button>
   <button class="nav-item" onclick="switchSection('dialogue')">
-    <div class="nav-icon">💬</div>
+    <div style="font-size: 22px;">💬</div>
     <div>Dialogue</div>
   </button>
   <button class="nav-item" onclick="switchSection('quiz')">
-    <div class="nav-icon">❓</div>
+    <div style="font-size: 22px;">❓</div>
     <div>Quiz</div>
   </button>
 </div>
-
 </div>
 
 <div id="toast" class="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════
-// VOCABULAIRE - NIVEAU COLLÉGIEN AVANCÉ (B1)
-// ═══════════════════════════════════════════
-
-const ADVANCED_VOCAB = [
-  { word: 'nevertheless', trans: 'néanmoins' },
-  { word: 'whereas', trans: 'tandis que' },
-  { word: 'furthermore', trans: 'de plus' },
-  { word: 'subsequently', trans: 'par la suite' },
-  { word: 'conversely', trans: 'inversement' },
-  { word: 'albeit', trans: 'bien que' },
-  { word: 'notwithstanding', trans: 'malgré' },
-  { word: 'ambiguous', trans: 'ambigu' },
-  { word: 'pragmatic', trans: 'pragmatique' },
-  { word: 'meticulous', trans: 'méticuleux' },
-  { word: 'benevolent', trans: 'bienveillant' },
-  { word: 'adversity', trans: 'adversité' },
-  { word: 'fortitude', trans: 'courage moral' },
-  { word: 'perseverance', trans: 'persévérance' },
-  { word: 'resilience', trans: 'résilience' },
-  { word: 'eloquent', trans: 'éloquent' },
-  { word: 'verbose', trans: 'verbeux' },
-  { word: 'concise', trans: 'concis' },
-  { word: 'lucid', trans: 'lucide' },
-  { word: 'obscure', trans: 'obscur' },
-  { word: 'biodiversity', trans: 'biodiversité' },
-  { word: 'ecosystem', trans: 'écosystème' },
-  { word: 'anthropogenic', trans: 'anthropogénique' },
-  { word: 'mitigation', trans: 'atténuation' },
-  { word: 'renewable energy', trans: 'énergie renouvelable' },
-  { word: 'carbon footprint', trans: 'empreinte carbone' },
-  { word: 'algorithm', trans: 'algorithme' },
-  { word: 'artificial intelligence', trans: 'intelligence artificielle' },
-  { word: 'cybersecurity', trans: 'cybersécurité' },
-  { word: 'blockchain', trans: 'chaîne de blocs' },
-  { word: 'malicious', trans: 'malveillant' },
-  { word: 'vulnerability', trans: 'vulnérabilité' },
-  { word: 'melancholy', trans: 'mélancolie' },
-  { word: 'nostalgia', trans: 'nostalgie' },
-  { word: 'euphoria', trans: 'euphorie' },
-  { word: 'contempt', trans: 'mépris' },
-  { word: 'resentment', trans: 'ressentiment' },
-  { word: 'compassion', trans: 'compassion' },
-  { word: 'empathy', trans: 'empathie' },
-  { word: 'indifference', trans: 'indifférence' },
-  { word: 'superficial', trans: 'superficiel' },
-  { word: 'profound', trans: 'profond' },
-  { word: 'controversial', trans: 'controversé' },
-  { word: 'legitimate', trans: 'légitime' },
-  { word: 'questionable', trans: 'discutable' },
-  { word: 'refute', trans: 'réfuter' },
-  { word: 'substantiate', trans: 'justifier par preuves' },
-  { word: 'corroborate', trans: 'corroborer' },
-  { word: 'evade', trans: 'esquiver' },
-  { word: 'peruse', trans: 'examiner attentivement' },
-  { word: 'scrutinize', trans: 'examiner minutieusement' },
-  { word: 'decipher', trans: 'déchiffrer' },
-  { word: 'encompass', trans: 'englober' },
+const VOCAB = [
+  { w: 'vocabulary', t: 'vocabulaire' }, { w: 'pronunciation', t: 'prononciation' }, { w: 'grammar', t: 'grammaire' },
+  { w: 'communicate', t: 'communiquer' }, { w: 'understand', t: 'comprendre' }, { w: 'difficult', t: 'difficile' },
+  { w: 'interesting', t: 'intéressant' }, { w: 'experience', t: 'expérience' }, { w: 'adventure', t: 'aventure' },
+  { w: 'technology', t: 'technologie' }, { w: 'opportunity', t: 'opportunité' }, { w: 'environment', t: 'environnement' },
+  { w: 'culture', t: 'culture' }, { w: 'tradition', t: 'tradition' }, { w: 'discover', t: 'découvrir' },
+  { w: 'confidence', t: 'confiance' }, { w: 'friendship', t: 'amitié' }, { w: 'challenge', t: 'défi' },
+  { w: 'nevertheless', t: 'néanmoins' }, { w: 'pragmatic', t: 'pragmatique' }, { w: 'meticulous', t: 'méticuleux' },
 ];
 
-const DIALOGUE_MODES = {
-  free: { name: 'Discussion libre', system: `You are a sophisticated English conversation partner for a teenage student at B1 intermediate level who has completed Duolingo. Engage meaningfully with varied vocabulary and interesting topics. Avoid being patronizing. Keep replies 3-5 sentences.` },
-  debate: { name: 'Débat', system: `You are a debate partner discussing thought-provoking topics: climate change, technology's impact, social media, education. Present reasoned arguments. 3-5 sentences, intermediate English.` },
-  travel: { name: 'Voyage', system: `You are a well-traveled guide discussing destinations, cultures, cuisines, travel experiences. Ask about interests, discuss cultural nuances. Be knowledgeable and engaging. 3-5 sentences.` },
-  literature: { name: 'Littérature', system: `You are a book lover discussing literature, authors, themes, writing styles. Ask thoughtful questions about plots, characters, symbolism. Use nuanced language. 3-5 sentences.` },
-  career: { name: 'Carrière', system: `You are a career mentor discussing future paths, skills development, internships. Ask about interests and strengths. Be encouraging but realistic. 3-5 sentences.` },
-  social: { name: 'Social', system: `You are a thoughtful peer discussing friendships, social dynamics, personal growth, aspirations. Be empathetic and non-judgmental. 3-5 sentences.` }
+const MODES = {
+  free: 'Discussion libre',
+  restaurant: 'Restaurant',
+  meeting: 'Réunion',
+  travel: 'Voyage',
+  interview: 'Interview',
+  shopping: 'Shopping',
+  phone: 'Téléphone',
+  debate: 'Débat'
 };
 
-let dicoData = [];
-let quizStats = { correct: 0, total: 0 };
-let currentQuiz = null;
-let quizPool = [];
-let splashPhrase = null;
-let splashStep = 0;
-let dialHistory = [];
-let dialCurrentMode = 'free';
+const STARTERS = {
+  free: `Hello! I'm happy to chat with you in English today.`,
+  restaurant: `Good evening! Welcome. Can I start you off with something to drink?`,
+  meeting: `Good morning. Thanks for joining. Let's get started.`,
+  travel: `Welcome to Heathrow. How can I help you today?`,
+  interview: `Thank you for coming in. Could you tell me about yourself?`,
+  shopping: `Hi there! Are you looking for something specific today?`,
+  phone: `Hello, this is Sarah. Am I speaking with the right person?`,
+  debate: `I'd love to hear your thoughts on something. What's on your mind?`
+};
+
+let dicoData = [], quizStats = { correct: 0, total: 0 }, dialHistory = [], dialMode = 'free', dialLang = 'en', dialMicActive = false, dialAutoListen = false;
 
 // ═══════════════════════════════════════════
-// STORAGE & GROQ KEY
+// STORAGE
 // ═══════════════════════════════════════════
 
-function getGroqKey() {
-  return localStorage.getItem('groq_key') || '';
+function load() {
+  dicoData = JSON.parse(localStorage.getItem('lina_dico') || '[]');
+  quizStats = JSON.parse(localStorage.getItem('lina_quiz') || '{"correct":0,"total":0}');
+  renderVocab();
+  initQuiz();
 }
 
-function saveGroqKey() {
-  const key = document.getElementById('groq-key').value.trim();
-  if (!key.startsWith('gsk_')) {
-    showToast('⚠️ La clé doit commencer par gsk_');
+function save() {
+  localStorage.setItem('lina_dico', JSON.stringify(dicoData));
+  localStorage.setItem('lina_quiz', JSON.stringify(quizStats));
+}
+
+// ═══════════════════════════════════════════
+// SPLASH & AUDIO
+// ═══════════════════════════════════════════
+
+function initSplash() {
+  const w = VOCAB[Math.floor(Math.random() * VOCAB.length)];
+  document.getElementById('splash-icon').style.backgroundImage = 'url(icon192.png)';
+  document.getElementById('splash-en').textContent = w.w;
+  document.getElementById('splash-fr').textContent = w.t;
+  speak(w.w, 'en');
+}
+
+function speakSplashWord() {
+  const word = document.getElementById('splash-en').textContent;
+  speak(word, 'en');
+}
+
+function splashShowTrans() {
+  const trans = document.getElementById('splash-trans');
+  if (trans.style.display === 'none') {
+    trans.style.display = 'block';
+    document.getElementById('splash-label').textContent = '👇 Appuyer pour entrer';
+    document.getElementById('splash-enter').style.display = 'block';
+  }
+}
+
+function enterApp() {
+  document.getElementById('splash').classList.add('hidden');
+}
+
+function speak(text, lang, onEnd) {
+  if (!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang === 'en' ? 'en-GB' : 'fr-FR';
+  utterance.rate = 0.95;
+  if (onEnd) utterance.onend = onEnd;
+  window.speechSynthesis.speak(utterance);
+}
+
+// ═══════════════════════════════════════════
+// VOCAB
+// ═══════════════════════════════════════════
+
+function renderVocab() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const filtered = dicoData.filter(d => d.w.includes(search) || d.t.includes(search));
+  const cards = document.getElementById('vocab-cards');
+  document.getElementById('stat-count').textContent = dicoData.length;
+  if (filtered.length === 0) {
+    cards.innerHTML = '';
+    document.getElementById('vocab-empty').style.display = dicoData.length === 0 ? 'block' : 'none';
     return;
   }
-  localStorage.setItem('groq_key', key);
-  showToast('✅ Clé sauvegardée');
-  closeSettings();
-}
-
-function saveData() {
-  localStorage.setItem('dicoData_daughter', JSON.stringify(dicoData));
-}
-
-function loadData() {
-  const stored = localStorage.getItem('dicoData_daughter');
-  dicoData = stored ? JSON.parse(stored) : [];
-}
-
-function saveQuizStats() {
-  localStorage.setItem('quizStats_daughter', JSON.stringify(quizStats));
-}
-
-function loadQuizStats() {
-  const stored = localStorage.getItem('quizStats_daughter');
-  quizStats = stored ? JSON.parse(stored) : { correct: 0, total: 0 };
-}
-
-// ═══════════════════════════════════════════
-// RENDER - VOCAB
-// ═══════════════════════════════════════════
-
-function renderDico() {
-  const list = document.getElementById('vocab-cards');
-  const empty = document.getElementById('vocab-empty');
-  
-  if (dicoData.length === 0) {
-    list.innerHTML = '';
-    empty.style.display = 'block';
-    document.getElementById('stat-vocab-count').textContent = '0';
-    return;
-  }
-  
-  empty.style.display = 'none';
-  document.getElementById('stat-vocab-count').textContent = dicoData.length;
-
-  const searchTerm = document.getElementById('search-vocab').value.toLowerCase();
-  const filtered = dicoData.filter(d => 
-    d.word.toLowerCase().includes(searchTerm) || 
-    d.trans.toLowerCase().includes(searchTerm)
-  );
-
-  list.innerHTML = filtered.map((d, i) => `
+  document.getElementById('vocab-empty').style.display = 'none';
+  cards.innerHTML = filtered.map(d => `
     <div class="flip-card" onclick="this.classList.toggle('flipped')">
       <div class="flip-inner">
-        <div class="flip-front">
-          <div class="flip-word">${d.word}</div>
-          <div class="flip-hint">${d.word.length} lettres</div>
-        </div>
-        <div class="flip-back">
-          <div class="flip-trans">${d.trans}</div>
-        </div>
+        <div class="flip-front"><div class="flip-word">${d.w}</div><div class="flip-trans" style="font-size:10px;margin-top:4px;color:var(--text3);">🔊</div></div>
+        <div class="flip-back"><div class="flip-trans">${d.t}</div></div>
       </div>
     </div>
   `).join('');
 }
 
-function filterDico() { renderDico(); }
-
-function resetSearch() {
-  document.getElementById('search-vocab').value = '';
-  filterDico();
-}
-
-function addNewWord() {
-  const word = document.getElementById('new-word').value.trim().toLowerCase();
-  const trans = document.getElementById('new-trans').value.trim();
-
-  if (!word || !trans) {
-    showToast('⚠️ Remplis les deux champs');
-    return;
-  }
-
-  if (dicoData.some(d => d.word === word)) {
-    showToast('⚠️ Ce mot existe déjà');
-    return;
-  }
-
-  dicoData.push({ word, trans, custom: true });
-  saveData();
-  renderDico();
+function filterVocab() { renderVocab(); }
+function resetSearch() { document.getElementById('search').value = ''; filterVocab(); }
+function addWord() {
+  const w = document.getElementById('new-word').value.trim().toLowerCase();
+  const t = document.getElementById('new-trans').value.trim();
+  if (!w || !t || dicoData.some(d => d.w === w)) { showToast('⚠️ Erreur'); return; }
+  dicoData.push({ w, t });
+  save();
+  renderVocab();
   initQuiz();
-
-  document.getElementById('new-word').value = '';
-  document.getElementById('new-trans').value = '';
-  showToast('✅ Mot ajouté !');
+  document.getElementById('new-word').value = document.getElementById('new-trans').value = '';
+  showToast('✅ Mot ajouté');
 }
 
 // ═══════════════════════════════════════════
-// RENDER - DIALOGUE
+// DIALOGUE
 // ═══════════════════════════════════════════
 
-function renderDialogueModes() {
-  const container = document.getElementById('dialogue-modes');
-  container.innerHTML = Object.entries(DIALOGUE_MODES).map(([key, mode]) => `
-    <button class="mode-btn ${key === 'free' ? 'active' : ''}" onclick="setDialogueMode('${key}')">${mode.name}</button>
+function initDialogue() {
+  document.getElementById('modes').innerHTML = Object.entries(MODES).map(([k, v]) => `
+    <button class="mode-btn ${k==='free'?'active':''}" onclick="setMode('${k}')">${v}</button>
   `).join('');
+  resetDialogue();
 }
 
-function setDialogueMode(mode) {
-  dialCurrentMode = mode;
-  dialHistory = [];
+function setMode(m) {
+  dialMode = m;
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`[onclick="setDialogueMode('${mode}')"]`).classList.add('active');
-  document.getElementById('dialogue-messages').innerHTML = '';
-  addDialogueMessage('system', `🎯 ${DIALOGUE_MODES[mode].name}`);
+  event.target.classList.add('active');
+  resetDialogue();
 }
 
-function addDialogueMessage(role, text) {
-  const container = document.getElementById('dialogue-messages');
+function resetDialogue() {
+  dialHistory = [];
+  dialAutoListen = false;
+  window.speechSynthesis.cancel();
+  stopMic();
+  updateMicBtn('idle');
+  document.getElementById('dial-messages').innerHTML = '';
+  const starter = STARTERS[dialMode] || STARTERS.free;
+  dialHistory.push({ role: 'assistant', content: starter });
+  addDialMsg('assistant', starter);
+}
+
+function toggleLang() {
+  dialLang = dialLang === 'en' ? 'bilingual' : 'en';
+  const btn = document.getElementById('lang-btn');
+  btn.textContent = dialLang === 'bilingual' ? '🇫🇷 Bilingual' : '🇬🇧 English';
+  btn.style.background = dialLang === 'bilingual' ? 'var(--primary)' : 'var(--surface)';
+  btn.style.color = dialLang === 'bilingual' ? 'white' : 'var(--primary)';
+}
+
+function toggleMic() {
+  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+    showToast('Micro non supporté');
+    return;
+  }
+  if (dialAutoListen || dialMicActive) {
+    dialAutoListen = false;
+    stopMic();
+    window.speechSynthesis.cancel();
+    updateMicBtn('idle');
+  } else {
+    dialAutoListen = true;
+    startMic();
+  }
+}
+
+function updateMicBtn(state) {
+  const btn = document.getElementById('mic-btn');
+  if (state === 'listening') {
+    btn.textContent = '🔴 Listening';
+    btn.style.background = 'rgba(231,76,60,.1)';
+  } else if (state === 'waiting') {
+    btn.textContent = '⏳ Thinking';
+    btn.style.background = 'rgba(243,156,18,.1)';
+  } else {
+    btn.textContent = '🎤 Parler';
+    btn.style.background = 'var(--surface)';
+  }
+}
+
+function startMic() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SpeechRecognition();
+  rec.lang = 'en-GB';
+  rec.continuous = false;
+  rec.interimResults = true;
+  const input = document.getElementById('dial-input');
+  rec.onstart = () => { dialMicActive = true; updateMicBtn('listening'); };
+  rec.onresult = (e) => {
+    let final = '', interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    input.value = (final || interim).trim();
+  };
+  rec.onend = () => {
+    dialMicActive = false;
+    if (input.value.trim()) {
+      updateMicBtn('waiting');
+      setTimeout(sendDialogue, 200);
+    } else if (!dialAutoListen) updateMicBtn('idle');
+  };
+  rec.onerror = (e) => {
+    dialMicActive = false;
+    if (e.error !== 'no-speech') showToast('Erreur: ' + e.error);
+    else if (dialAutoListen) setTimeout(startMic, 300);
+  };
+  window.dialRecognition = rec;
+  rec.start();
+}
+
+function stopMic() {
+  if (window.dialRecognition) window.dialRecognition.stop();
+}
+
+function addDialMsg(role, text) {
+  const box = document.getElementById('dial-messages');
+  const isUser = role === 'user';
   const div = document.createElement('div');
   div.className = `message ${role}`;
-  
   const bubble = document.createElement('div');
   bubble.className = 'message-bubble';
   bubble.textContent = text;
   div.appendChild(bubble);
 
-  if (role === 'assistant') {
-    const translation = document.createElement('div');
-    translation.className = 'message-translation';
-    translation.textContent = '💬 Cliquer pour traduction';
-    translation.onclick = async () => {
-      if (translation.textContent === '💬 Cliquer pour traduction') {
-        translation.textContent = '⏳...';
-        const trans = await translateText(text);
-        translation.textContent = trans;
+  if (!isUser) {
+    const trans = document.createElement('div');
+    trans.className = 'message-trans';
+    trans.textContent = '⏳ Traduction…';
+    bubble.appendChild(trans);
+    bubble.onclick = async () => {
+      if (trans.style.display === 'none') {
+        trans.style.display = 'block';
+      } else {
+        if (trans.textContent === '⏳ Traduction…') {
+          trans.textContent = await dialTranslate(text);
+        }
+        trans.style.display = 'none';
       }
     };
-    div.appendChild(translation);
+    const btn = document.createElement('button');
+    btn.className = 'sound-btn';
+    btn.textContent = '🔊';
+    btn.onclick = (e) => { e.stopPropagation(); speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); };
+    div.appendChild(btn);
+    setTimeout(() => { speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); }, 200);
   }
-
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
 }
 
-async function translateText(text) {
+async function dialTranslate(text) {
   try {
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|fr`;
-    const r = await fetch(url);
+    const key = localStorage.getItem('groq_key') || '';
+    if (key) {
+      const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({ model: 'mixtral-8x7b-32768', max_tokens: 150, messages: [{ role: 'user', content: `Translate to French. Reply ONLY with translation:\n"${text}"` }] })
+      });
+      const d = await r.json();
+      const tr = d.choices?.[0]?.message?.content?.trim() || '';
+      if (tr) return '🇫🇷 ' + tr;
+    }
+    const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|fr`);
     const d = await r.json();
     return '🇫🇷 ' + (d.responseData?.translatedText || 'N/A');
-  } catch {
-    return '🇫🇷 Erreur';
-  }
+  } catch { return '🇫🇷 Erreur'; }
 }
 
 async function sendDialogue() {
-  const input = document.getElementById('dialogue-input');
+  const input = document.getElementById('dial-input');
   const text = input.value.trim();
   if (!text) return;
-
-  const btn = document.getElementById('dialogue-send-btn');
+  const btn = document.getElementById('send-btn');
   btn.disabled = true;
   input.value = '';
-
-  addDialogueMessage('user', text);
+  addDialMsg('user', text);
   dialHistory.push({ role: 'user', content: text });
 
-  const thinking = document.createElement('div');
-  thinking.style.cssText = 'color:var(--text3);font-size:13px;padding:4px 8px;font-style:italic;';
-  thinking.textContent = '✍️ En train de répondre...';
-  document.getElementById('dialogue-messages').appendChild(thinking);
-  document.getElementById('dialogue-messages').scrollTop = document.getElementById('dialogue-messages').scrollHeight;
-
   try {
-    const groqKey = getGroqKey();
-    if (!groqKey) {
-      thinking.remove();
-      addDialogueMessage('system', '⚠️ Ajoute ta clé Groq dans Paramètres ⚙️');
+    const key = localStorage.getItem('groq_key') || '';
+    if (!key) {
+      addDialMsg('assistant', '⚠️ Ajoute ta clé Groq dans Paramètres ⚙️');
       btn.disabled = false;
       return;
     }
-
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${groqKey}`
-      },
-      body: JSON.stringify({
-        model: 'mixtral-8x7b-32768',
-        max_tokens: 350,
-        messages: [
-          { role: 'system', content: DIALOGUE_MODES[dialCurrentMode].system },
-          ...dialHistory.slice(-10)
-        ]
-      })
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+      body: JSON.stringify({ model: 'mixtral-8x7b-32768', max_tokens: 300, messages: dialHistory.slice(-10) })
     });
-
-    const data = await response.json();
-    thinking.remove();
-
-    if (data.choices && data.choices[0]) {
-      const reply = data.choices[0].message.content;
-      dialHistory.push({ role: 'assistant', content: reply });
-      addDialogueMessage('assistant', reply);
-    } else {
-      addDialogueMessage('system', '❌ Erreur API - Vérifie ta clé Groq');
-    }
-  } catch (err) {
-    thinking.remove();
-    addDialogueMessage('system', '❌ Erreur réseau');
+    const d = await r.json();
+    const reply = d.choices?.[0]?.message?.content || '…';
+    dialHistory.push({ role: 'assistant', content: reply });
+    addDialMsg('assistant', reply);
+  } catch (e) {
+    addDialMsg('assistant', '❌ Erreur réseau');
   }
   btn.disabled = false;
 }
@@ -587,76 +555,56 @@ async function sendDialogue() {
 // QUIZ
 // ═══════════════════════════════════════════
 
+let quizPool = [];
 function initQuiz() {
-  const allWords = [...dicoData, ...ADVANCED_VOCAB];
-  quizPool = allWords.filter(w => w.word && w.trans).sort(() => Math.random() - 0.5);
-  
+  quizPool = [...dicoData, ...VOCAB].filter(w => w.w && w.t).sort(() => Math.random() - 0.5);
   if (quizPool.length === 0) {
-    document.getElementById('quiz-container').innerHTML = '<div class="empty-state"><div class="empty-icon">❓</div><div class="empty-text">Ajoute des mots !</div></div>';
+    document.getElementById('quiz-container').innerHTML = '<div class="empty-state"><div class="empty-icon">❓</div><div>Ajoute des mots</div></div>';
     return;
   }
-  showNextQuiz();
+  showQuiz();
 }
 
-function showNextQuiz() {
+let currentQuiz = null;
+function showQuiz() {
   if (quizPool.length === 0) {
-    document.getElementById('quiz-container').innerHTML = `
-      <div style="text-align:center;padding:30px;">
-        <div style="font-size:48px;margin-bottom:12px;">🎉</div>
-        <div style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:12px;">Quiz terminé !</div>
-        <div style="font-size:14px;color:var(--text2);margin-bottom:20px;">Score: ${quizStats.correct}/${quizStats.total}</div>
-        <button class="btn-primary" onclick="initQuiz()">Recommencer</button>
-      </div>
-    `;
+    document.getElementById('quiz-container').innerHTML = `<div style="text-align:center;padding:30px;"><div style="font-size:48px;margin-bottom:12px;">🎉</div><div style="font-size:16px;font-weight:600;margin-bottom:12px;">Score: ${quizStats.correct}/${quizStats.total}</div><button onclick="initQuiz()" style="padding:10px 16px;border-radius:8px;border:none;background:var(--primary);color:white;font-size:14px;font-weight:600;cursor:pointer;">Recommencer</button></div>`;
     return;
   }
-
   const idx = Math.floor(Math.random() * quizPool.length);
-  const entry = quizPool[idx];
+  const w = quizPool[idx];
   quizPool.splice(idx, 1);
-
-  const options = [entry.trans];
-  const allTrans = [...dicoData, ...ADVANCED_VOCAB].map(d => d.trans);
-  while (options.length < 4) {
-    const opt = allTrans[Math.floor(Math.random() * allTrans.length)];
-    if (!options.includes(opt)) options.push(opt);
+  const opts = [w.t];
+  const allTrans = [...dicoData, ...VOCAB].map(d => d.t);
+  while (opts.length < 4) {
+    const o = allTrans[Math.floor(Math.random() * allTrans.length)];
+    if (!opts.includes(o)) opts.push(o);
   }
-  options.sort(() => Math.random() - 0.5);
-
-  currentQuiz = { word: entry.word, correct: entry.trans, options };
-
-  const progress = ((quizStats.total + 1) / (quizStats.total + quizPool.length + 1)) * 100;
+  opts.sort(() => Math.random() - 0.5);
+  currentQuiz = { w: w.w, correct: w.t, opts };
   document.getElementById('quiz-container').innerHTML = `
     <div class="quiz-card">
-      <div class="quiz-prog"><div class="quiz-prog-bar" style="width:${progress}%"></div></div>
-      <div class="quiz-meta">
-        <span>Justes: ${quizStats.correct}</span>
-        <span>${(quizStats.total > 0 ? Math.round(quizStats.correct * 100 / quizStats.total) : 0)}%</span>
-      </div>
-      <div class="quiz-question">Qu'est-ce que "<strong>${currentQuiz.word}</strong>" ?</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Justes: ${quizStats.correct} | ${quizStats.total>0?Math.round(quizStats.correct*100/quizStats.total)+'%':'0%'}</div>
+      <div class="quiz-question">Qu'est-ce que "<strong>${currentQuiz.w}</strong>" ?</div>
       <div class="quiz-options">
-        ${currentQuiz.options.map(opt => `<button class="quiz-opt" onclick="answerQuiz('${opt.replace(/'/g, "\\'")}')">${opt}</button>`).join('')}
+        ${currentQuiz.opts.map(o => `<button class="quiz-opt" onclick="answerQuiz('${o.replace(/'/g, "\\'")}')">${o}</button>`).join('')}
       </div>
     </div>
   `;
 }
 
-function answerQuiz(answer) {
-  quizStats.total += 1;
-  if (answer === currentQuiz.correct) {
-    quizStats.correct += 1;
-    showToast('✅ Bonne réponse !');
+function answerQuiz(a) {
+  quizStats.total++;
+  if (a === currentQuiz.correct) {
+    quizStats.correct++;
+    showToast('✅');
   } else {
-    showToast(`❌ Réponse: ${currentQuiz.correct}`);
+    showToast('❌ Réponse: ' + currentQuiz.correct);
   }
-  saveQuizStats();
-  updateQuizStats();
-  setTimeout(showNextQuiz, 800);
-}
-
-function updateQuizStats() {
   document.getElementById('quiz-correct').textContent = quizStats.correct;
-  document.getElementById('quiz-score').textContent = quizStats.total > 0 ? Math.round(quizStats.correct * 100 / quizStats.total) + '%' : '0%';
+  document.getElementById('quiz-score').textContent = Math.round(quizStats.correct * 100 / quizStats.total) + '%';
+  save();
+  setTimeout(showQuiz, 800);
 }
 
 // ═══════════════════════════════════════════
@@ -666,13 +614,12 @@ function updateQuizStats() {
 function switchSection(name) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  
-  document.getElementById(`section-${name}`).classList.add('active');
+  document.getElementById('section-' + name).classList.add('active');
   event.target.closest('.nav-item').classList.add('active');
 }
 
 function openSettings() {
-  document.getElementById('groq-key').value = getGroqKey();
+  document.getElementById('groq-key').value = localStorage.getItem('groq_key') || '';
   document.getElementById('settings-modal').classList.add('show');
 }
 
@@ -680,16 +627,21 @@ function closeSettings() {
   document.getElementById('settings-modal').classList.remove('show');
 }
 
+function saveGroqKey() {
+  const key = document.getElementById('groq-key').value.trim();
+  if (!key.startsWith('gsk_')) { showToast('⚠️ Clé invalide'); return; }
+  localStorage.setItem('groq_key', key);
+  showToast('✅ Clé sauvegardée');
+  closeSettings();
+}
+
 function resetData() {
   if (confirm('Réinitialiser TOUT ?')) {
     dicoData = [];
     quizStats = { correct: 0, total: 0 };
-    saveData();
-    saveQuizStats();
-    renderDico();
-    updateQuizStats();
+    save();
+    load();
     showToast('✅ Réinitialisé');
-    closeSettings();
   }
 }
 
@@ -702,64 +654,11 @@ function showToast(msg) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-// ═══════════════════════════════════════════
-// PWA
-// ═══════════════════════════════════════════
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
 
-if('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(() => {});
-}
-
-// ═══════════════════════════════════════════
-// SPLASH
-// ═══════════════════════════════════════════
-
-function initSplash() {
-  const pool = ADVANCED_VOCAB.filter(e => e.word && e.trans && e.word.length > 4);
-  if (pool.length === 0) { enterApp(); return; }
-  const entry = pool[Math.floor(Math.random() * pool.length)];
-  splashPhrase = { word: entry.word, fr: entry.trans };
-
-  document.getElementById('splash-icon').style.backgroundImage = 'url(icon192.png)';
-  document.getElementById('splash-en').textContent = entry.word;
-  splashStep = 0;
-
-  setTimeout(() => {
-    document.getElementById('splash-fr').style.display = 'block';
-    document.getElementById('splash-fr').textContent = entry.trans;
-    document.getElementById('dot1').classList.remove('active');
-    document.getElementById('dot2').classList.add('active');
-    document.getElementById('splash-enter').style.display = 'block';
-    splashStep = 1;
-  }, 1500);
-}
-
-function splashTap() {
-  enterApp();
-}
-
-function enterApp() {
-  const splash = document.getElementById('splash');
-  splash.classList.add('hidden');
-  document.getElementById('dot2').classList.remove('active');
-  document.getElementById('dot3').classList.add('active');
-  setTimeout(() => { splash.style.display = 'none'; }, 500);
-}
-
-// ═══════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════
-
-loadData();
-loadQuizStats();
-renderDico();
-renderDialogueModes();
-initQuiz();
-updateQuizStats();
+load();
+initDialogue();
 initSplash();
-
-document.getElementById('splash').addEventListener('click', splashTap);
 </script>
-
 </body>
 </html>
