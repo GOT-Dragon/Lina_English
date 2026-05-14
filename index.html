@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ma Learn English">
+<meta name="theme-color" content="#e91e63">
+<title>Ma Learn English</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root {
+  --blue: #e91e63;
+  --blue-light: #fce4ec;
+  --blue-mid: #f06292;
+  --green: #3B6D11;
+  --green-light: #EAF3DE;
+  --amber: #854F0B;
+  --amber-light: #FAEEDA;
+  --coral: #993C1D;
+  --coral-light: #FAECE7;
+  --teal: #0F6E56;
+  --teal-light: #E1F5EE;
+  --purple: #534AB7;
+  --purple-light: #EEEDFE;
+  --gray: #5F5E5A;
+  --gray-light: #F1EFE8;
+  --border: rgba(0,0,0,0.12);
+  --border-strong: rgba(0,0,0,0.22);
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --surface2: #f1efe8;
+  --text: #1a1a18;
+  --text2: #5f5e5a;
+  --text3: #9a9890;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a1a18;
+    --surface: #242422;
+    --surface2: #2c2c2a;
+    --text: #f1efe8;
+    --text2: #b4b2a9;
+    --text3: #6b6a66;
+    --border: rgba(255,255,255,0.1);
+    --border-strong: rgba(255,255,255,0.2);
+    --blue-light: #6a1b47;
+    --green-light: #162908;
+    --amber-light: #2a1a03;
+    --coral-light: #2a0f06;
+    --teal-light: #051f18;
+    --purple-light: #1a1640;
+    --gray-light: #2c2c2a;
+    --blue: #f06292;
+    --blue-mid: #ec407a;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+/* LAYOUT */
+.app { display: flex; flex-direction: column; height: 100%; max-width: 680px; margin: 0 auto; }
+.main { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 12px 14px 80px; -webkit-overflow-scrolling: touch; }
+
+/* HEADER */
+.header { padding: env(safe-area-inset-top, 0) 14px 0; background: var(--surface); border-bottom: 0.5px solid var(--border); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 0 10px; }
+.header h1 { font-size: 18px; font-weight: 600; color: var(--blue); }
+.header-actions { display: flex; gap: 8px; }
+.icon-btn { width: 34px; height: 34px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text2); font-size: 16px; }
+.icon-btn:active { background: var(--surface2); }
+
+/* BOTTOM NAV */
+.bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 680px; background: var(--surface); border-top: 0.5px solid var(--border); display: flex; padding-bottom: env(safe-area-inset-bottom, 0); z-index: 100; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px 10px; cursor: pointer; color: var(--text3); font-size: 10px; gap: 3px; border: none; background: none; }
+.nav-item .nav-icon { font-size: 22px; line-height: 1; }
+.nav-item.active { color: var(--blue); }
+.nav-item.active .nav-icon { transform: scale(1.05); }
+
+/* SECTIONS */
+.section { display: none; }
+.section.active { display: block; }
+
+/* SUB-TABS */
+.sub-tabs { display: flex; gap: 6px; margin-bottom: 14px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.sub-tabs::-webkit-scrollbar { display: none; }
+.sub-tab { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); white-space: nowrap; font-weight: 500; }
+.sub-tab.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+.sub-section { display: none; }
+.sub-section.active { display: block; }
+
+/* SEARCH */
+.search-wrap { display: flex; gap: 8px; margin-bottom: 12px; }
+.search-input { flex: 1; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface); font-size: 15px; color: var(--text); outline: none; }
+.search-input:focus { border-color: var(--blue); }
+.btn-primary { padding: 10px 16px; border-radius: var(--radius); border: none; background: var(--blue); color: white; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+.btn-primary:active { opacity: 0.85; }
+.btn-outline { padding: 8px 14px; border-radius: var(--radius); border: 0.5px solid var(--border-strong); background: transparent; color: var(--text); font-size: 13px; cursor: pointer; }
+.btn-outline:active { background: var(--surface2); }
+
+/* FLIP CARDS */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 8px; }
+.flip-card { perspective: 800px; cursor: pointer; height: 90px; }
+.flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.38s cubic-bezier(.4,0,.2,1); }
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: var(--radius); border: 0.5px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px; text-align: center; }
+.flip-front { background: var(--surface); }
+.flip-back { background: var(--blue-light); transform: rotateY(180deg); }
+.flip-word { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.flip-hint { font-size: 10px; color: var(--text3); margin-top: 4px; }
+.flip-trans { font-size: 12px; color: var(--blue); font-weight: 500; line-height: 1.3; }
+
+/* STATS */
+.stats-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+.stat-chip { background: var(--surface2); border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--text2); }
+.stat-chip strong { color: var(--text); font-weight: 600; }
+
+/* QUIZ */
+.quiz-card { background: var(--surface); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 20px; box-shadow: var(--shadow); }
+.quiz-meta { font-size: 12px; color: var(--text3); margin-bottom: 14px; display: flex; justify-content: space-between; }
+.quiz-question { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt { padding: 12px 14px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text); transition: all .2s; }
+.quiz-opt:active { background: var(--surface2); }
+.quiz-opt.correct { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 600; }
+.quiz-opt.wrong { background: var(--coral-light); border-color: var(--coral); color: var(--coral); }
+.quiz-prog { height: 4px; background: var(--surface2); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
+.quiz-prog-bar { height: 100%; background: var(--blue); transition: width .3s; }
+
+/* TRANSLATOR */
+.trad-form { display: flex; gap: 8px; margin-bottom: 14px; }
+.trad-input { flex: 1; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface); font-size: 15px; color: var(--text); outline: none; }
+.trad-input:focus { border-color: var(--blue); }
+.trad-result { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 14px; margin-bottom: 12px; }
+.trad-result.hidden { display: none; }
+.trad-en { font-size: 13px; color: var(--text3); margin-bottom: 6px; }
+.trad-word { font-size: 16px; font-weight: 600; color: var(--blue); margin-bottom: 8px; }
+.trad-fr { font-size: 14px; color: var(--text); line-height: 1.5; margin-bottom: 8px; }
+.trad-example { font-size: 12px; color: var(--text3); font-style: italic; padding: 8px; background: var(--surface2); border-radius: 6px; }
+.trad-hist { display: flex; flex-direction: column; gap: 7px; }
+.trad-hist-item { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 12px 14px; cursor: pointer; transition: border-color .2s; }
+.trad-hist-item:active { border-color: var(--blue); }
+.trad-hist-en { font-size: 13px; color: var(--blue); font-weight: 500; }
+.trad-hist-fr { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* ADD NEW */
+.add-new-wrap { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.add-new-row { display: flex; gap: 8px; }
+.add-new-input { flex: 1; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none; }
+.add-new-input:focus { border-color: var(--blue); }
+.add-btn { padding: 10px 16px; border-radius: var(--radius); border: none; background: var(--blue); color: white; font-size: 14px; font-weight: 500; cursor: pointer; }
+.add-btn:active { opacity: 0.85; }
+
+/* ALPHA FILTER */
+.alpha-nav { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
+.alpha-btn { padding: 4px 8px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface); font-size: 11px; cursor: pointer; color: var(--text2); font-weight: 500; }
+.alpha-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+/* DICO LIST */
+.dico-list { display: flex; flex-direction: column; gap: 8px; }
+.dico-item { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dico-text { flex: 1; }
+.dico-word { font-size: 14px; font-weight: 600; color: var(--blue); }
+.dico-trans { font-size: 12px; color: var(--text2); margin-top: 3px; }
+.dico-actions { display: flex; gap: 6px; }
+.dico-btn { padding: 4px 8px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 11px; cursor: pointer; color: var(--text2); }
+
+/* SPLASH */
+.splash { position: fixed; inset: 0; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-mid) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 999; transition: opacity .5s; }
+.splash.hidden { opacity: 0; pointer-events: none; }
+.splash-content { text-align: center; }
+.splash-word { font-size: 48px; font-weight: 700; color: white; margin-bottom: 20px; letter-spacing: -1px; }
+.splash-trans { font-size: 24px; color: rgba(255,255,255,0.8); margin-bottom: 30px; min-height: 32px; }
+.splash-label { font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 40px; }
+.splash-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.splash-btn { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--blue); font-size: 15px; font-weight: 600; cursor: pointer; }
+.splash-sound { display: none; font-size: 24px; margin-left: 8px; cursor: pointer; }
+.splash-dots { display: flex; gap: 8px; justify-content: center; margin-top: 30px; }
+.splash-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.4); transition: all .3s; }
+.splash-dot.active { background: white; transform: scale(1.3); }
+
+/* SETTINGS MODAL */
+.settings-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; align-items: center; justify-content: flex-end; }
+.settings-modal.show { display: flex; }
+.settings-panel { background: var(--surface); width: 100%; max-width: 400px; height: 100%; overflow-y: auto; display: flex; flex-direction: column; }
+.settings-header { padding: env(safe-area-inset-top, 0) 14px 0; background: var(--surface); border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; }
+.settings-header h2 { font-size: 18px; font-weight: 600; color: var(--text); }
+.settings-close { width: 34px; height: 34px; border-radius: 8px; border: none; background: var(--surface2); font-size: 16px; cursor: pointer; color: var(--text2); }
+.settings-body { flex: 1; padding: 14px; overflow-y: auto; }
+.settings-item { margin-bottom: 20px; }
+.settings-item label { display: block; font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.settings-item input { width: 100%; padding: 10px 14px; border-radius: var(--radius); border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; }
+.settings-item input:focus { border-color: var(--blue); }
+.settings-btn { width: 100%; padding: 10px; border-radius: var(--radius); border: none; background: var(--blue); color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 8px; }
+.settings-btn:active { opacity: 0.85; }
+.settings-btn.danger { background: #c0392b; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 12px 16px; border-radius: 8px; font-size: 13px; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.toast.show { opacity: 1; }
+
+/* DIALOG PRACTICUM */
+.dialog-card { background: var(--surface); border-radius: var(--radius-lg); border: 0.5px solid var(--border); padding: 16px; margin-bottom: 14px; box-shadow: var(--shadow); }
+.dialog-speaker { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+.dialog-text { font-size: 15px; color: var(--text); line-height: 1.5; margin-bottom: 10px; }
+.dialog-text.fr { color: var(--green); font-style: italic; }
+.dialog-phonetic { font-size: 12px; color: var(--text2); font-style: italic; margin-bottom: 8px; padding: 8px; background: var(--surface2); border-radius: 6px; }
+.dialog-actions { display: flex; gap: 8px; }
+.dialog-btn { padding: 6px 12px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 12px; cursor: pointer; color: var(--text2); }
+.dialog-btn:active { background: var(--blue-light); color: var(--blue); }
+
+/* PAGE NAV */
+.page-nav { display: flex; gap: 4px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+.page-btn { padding: 6px 10px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); }
+.page-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+.page-btn:active { opacity: 0.85; }
+
+/* INSTALL BUTTON */
+#install-btn-wrap { display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); z-index: 99; }
+.install-btn { padding: 12px 20px; border-radius: 20px; background: var(--blue); color: white; border: none; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+
+/* EMPTY STATE */
+.empty-state { text-align: center; padding: 30px 20px; color: var(--text3); }
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-text { font-size: 14px; color: var(--text2); }
+</style>
+</head>
+<body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash" class="splash">
+  <div class="splash-content">
+    <div class="splash-word" id="splash-en">English</div>
+    <div class="splash-trans" id="splash-fr" style="display:none;"></div>
+    <div class="splash-label" id="splash-label">🇬🇧 Appuyez pour révéler la traduction</div>
+    <div class="splash-btns">
+      <button class="splash-sound" id="splash-sound" onclick="splashSpeak()">🔊</button>
+      <button class="splash-btn" id="splash-enter" style="display:none;" onclick="splashTap()">Entrer</button>
+    </div>
+    <div class="splash-dots">
+      <div class="splash-dot active" id="dot1"></div>
+      <div class="splash-dot" id="dot2"></div>
+      <div class="splash-dot" id="dot3"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div id="settings-modal" class="settings-modal">
+  <div class="settings-panel">
+    <div class="settings-header">
+      <h2>Paramètres</h2>
+      <button class="settings-close" onclick="closeSettings(null)">✕</button>
+    </div>
+    <div class="settings-body">
+      <div class="settings-item">
+        <label>Créateur</label>
+        <input type="text" id="creator-name" placeholder="Ton nom...">
+      </div>
+      <button class="settings-btn" onclick="saveCreatorName()">Sauvegarder le nom</button>
+      <button class="settings-btn danger" onclick="resetData()">Réinitialiser tout</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <h1 id="app-title">👑 Ma Learn English</h1>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="openSettings()">⚙️</button>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- SECTION 1: VOCAB -->
+<section id="section-vocab" class="section active">
+  <div class="stats-row">
+    <div class="stat-chip">Mots: <strong id="stat-vocab-count">0</strong></div>
+  </div>
+  
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search-vocab" placeholder="Chercher un mot..." oninput="filterDico()">
+    <button class="btn-primary" onclick="resetSearch()">Reset</button>
+  </div>
+
+  <div id="vocab-empty" class="empty-state" style="display:none;">
+    <div class="empty-icon">📚</div>
+    <div class="empty-text">Ajoute tes premiers mots pour commencer !</div>
+  </div>
+
+  <div id="vocab-cards" class="cards-grid"></div>
+
+  <div style="margin-top: 20px;">
+    <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text);">Ajouter un mot</h3>
+    <div class="add-new-wrap">
+      <input type="text" class="add-new-input" id="new-word" placeholder="Mot en anglais...">
+      <input type="text" class="add-new-input" id="new-trans" placeholder="Traduction française...">
+      <button class="add-btn" onclick="addNewWord()">+ Ajouter</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: ORAL -->
+<section id="section-oral" class="section">
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="switchOralTab('dialogue')">Dialogue</button>
+  </div>
+
+  <div id="oral-dialogue" class="sub-section active">
+    <div id="dialogue-content"></div>
+  </div>
+</section>
+
+<!-- SECTION 3: QUIZ -->
+<section id="section-quiz" class="section">
+  <div class="stats-row">
+    <div class="stat-chip">Réponses justes: <strong id="quiz-correct">0</strong></div>
+    <div class="stat-chip">Score: <strong id="quiz-score">0%</strong></div>
+  </div>
+
+  <div id="quiz-empty" class="empty-state" style="display:none;">
+    <div class="empty-icon">❓</div>
+    <div class="empty-text">Ajoute des mots pour commencer un quiz !</div>
+  </div>
+
+  <div id="quiz-container"></div>
+</section>
+
+<!-- SECTION 4: TRANSLATOR -->
+<section id="section-trad" class="section">
+  <div class="trad-form">
+    <input type="text" class="trad-input" id="trad-input" placeholder="Tape un mot en anglais...">
+    <button class="btn-primary" onclick="translateWord()">Chercher</button>
+  </div>
+
+  <div id="trad-result" class="trad-result hidden"></div>
+
+  <h3 style="font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text);">Historique</h3>
+  <div id="trad-hist-list" class="trad-hist"></div>
+</section>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-item active" onclick="switchSection('vocab')">
+    <div class="nav-icon">📚</div>
+    <div>Vocab</div>
+  </button>
+  <button class="nav-item" onclick="switchSection('oral')">
+    <div class="nav-icon">🎙️</div>
+    <div>Oral</div>
+  </button>
+  <button class="nav-item" onclick="switchSection('quiz')">
+    <div class="nav-icon">❓</div>
+    <div>Quiz</div>
+  </button>
+  <button class="nav-item" onclick="switchSection('trad')">
+    <div class="nav-icon">🌐</div>
+    <div>Traduire</div>
+  </button>
+</div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- INSTALL BUTTON WRAPPER -->
+<div id="install-btn-wrap">
+  <button class="install-btn" onclick="installPWA()">Installer l'app</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════
+
+// Mots usuels pour enfants - pour le splash et le quiz
+const COMMON_WORDS = [
+  { word: 'apple', trans: 'pomme' },
+  { word: 'cat', trans: 'chat' },
+  { word: 'dog', trans: 'chien' },
+  { word: 'house', trans: 'maison' },
+  { word: 'tree', trans: 'arbre' },
+  { word: 'sun', trans: 'soleil' },
+  { word: 'moon', trans: 'lune' },
+  { word: 'star', trans: 'étoile' },
+  { word: 'flower', trans: 'fleur' },
+  { word: 'bird', trans: 'oiseau' },
+  { word: 'fish', trans: 'poisson' },
+  { word: 'water', trans: 'eau' },
+  { word: 'fire', trans: 'feu' },
+  { word: 'ice', trans: 'glace' },
+  { word: 'snow', trans: 'neige' },
+  { word: 'rain', trans: 'pluie' },
+  { word: 'cloud', trans: 'nuage' },
+  { word: 'sky', trans: 'ciel' },
+  { word: 'red', trans: 'rouge' },
+  { word: 'blue', trans: 'bleu' },
+  { word: 'green', trans: 'vert' },
+  { word: 'yellow', trans: 'jaune' },
+  { word: 'pink', trans: 'rose' },
+  { word: 'book', trans: 'livre' },
+  { word: 'pen', trans: 'stylo' },
+  { word: 'table', trans: 'table' },
+  { word: 'chair', trans: 'chaise' },
+  { word: 'door', trans: 'porte' },
+  { word: 'window', trans: 'fenêtre' },
+  { word: 'happy', trans: 'heureux' },
+  { word: 'sad', trans: 'triste' },
+  { word: 'big', trans: 'grand' },
+  { word: 'small', trans: 'petit' },
+  { word: 'hot', trans: 'chaud' },
+  { word: 'cold', trans: 'froid' },
+];
+
+// Dialogues simples pour enfants
+const DIALOGS = [
+  [
+    { speaker: 'A', text: 'Hi! What is your name?', phonetic: 'Haï! Wouat iz your nèm?' },
+    { speaker: 'B', text: 'My name is Sarah. What about you?', phonetic: 'Maï nèm iz Sarah. Wouat abaoût you?' },
+    { speaker: 'A', text: 'I am Tom. Nice to meet you!', phonetic: 'Aï am Tom. Naïs tou mit you!' },
+  ],
+  [
+    { speaker: 'A', text: 'How are you today?', phonetic: 'Haou ar you teudé?' },
+    { speaker: 'B', text: 'I am very good, thank you!', phonetic: 'Aï am veri goude, thènk you!' },
+    { speaker: 'A', text: 'That is wonderful!', phonetic: 'Thet iz wondèrfoul!' },
+  ],
+  [
+    { speaker: 'A', text: 'What do you like to eat?', phonetic: 'Wouat dou you laïk tou it?' },
+    { speaker: 'B', text: 'I like pizza and ice cream!', phonetic: 'Aï laïk pitsa and aïs krim!' },
+    { speaker: 'A', text: 'Me too! They are delicious!', phonetic: 'Mi tou! Thé ar délicious!' },
+  ],
+];
+
+// Supabase config
+const sbUrl = 'https://nibejtyghkbcgklzepoh.supabase.co';
+const sbKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5pYmVqdHlnaGtiY2drbHplcG9oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDMwNjAwMDAsImV4cCI6MTkxODYzNjAwMH0.0YdxvVmjF6r6FQ3lVm-s-VaLRaC1PhuQeHy8MZYyI-0';
+const userId = 'got_dragon_daughter';
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+
+let dicoData = [];
+let tradHistData = [];
+let quizStats = { correct: 0, total: 0 };
+let currentQuiz = null;
+let quizPool = [];
+let deferredInstall = null;
+let splashPhrase = null;
+let splashStep = 0;
+
+// ═══════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════
+
+function saveData() {
+  localStorage.setItem('dicoData_daughter', JSON.stringify(dicoData));
+}
+
+function loadData() {
+  const stored = localStorage.getItem('dicoData_daughter');
+  dicoData = stored ? JSON.parse(stored) : [];
+}
+
+function saveTradHist() {
+  localStorage.setItem('tradHistData_daughter', JSON.stringify(tradHistData));
+}
+
+function loadTradHist() {
+  const stored = localStorage.getItem('tradHistData_daughter');
+  tradHistData = stored ? JSON.parse(stored) : [];
+}
+
+function saveQuizStats() {
+  localStorage.setItem('quizStats_daughter', JSON.stringify(quizStats));
+}
+
+function loadQuizStats() {
+  const stored = localStorage.getItem('quizStats_daughter');
+  quizStats = stored ? JSON.parse(stored) : { correct: 0, total: 0 };
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+
+function renderDico() {
+  const list = document.getElementById('vocab-cards');
+  const empty = document.getElementById('vocab-empty');
+  
+  if (dicoData.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    document.getElementById('stat-vocab-count').textContent = '0';
+    return;
+  }
+  
+  empty.style.display = 'none';
+  document.getElementById('stat-vocab-count').textContent = dicoData.length;
+
+  const searchTerm = document.getElementById('search-vocab').value.toLowerCase();
+  const filtered = dicoData.filter(d => 
+    d.word.toLowerCase().includes(searchTerm) || 
+    d.trans.toLowerCase().includes(searchTerm)
+  );
+
+  list.innerHTML = filtered.map((d, i) => `
+    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+      <div class="flip-inner">
+        <div class="flip-front">
+          <div class="flip-word">${d.word}</div>
+          <div class="flip-hint">🔊 ${d.word.length} lettres</div>
+          <button style="margin-top:6px;padding:4px 8px;border-radius:6px;border:none;background:var(--surface2);font-size:11px;cursor:pointer;" onclick="event.stopPropagation(); speak('${d.word}', 'en')">Écouter</button>
+        </div>
+        <div class="flip-back">
+          <div class="flip-trans">${d.trans}</div>
+          <div style="margin-top:10px;display:flex;gap:6px;justify-content:center;">
+            <button onclick="event.stopPropagation(); editDicoItem(${i})" style="padding:4px 8px;border-radius:6px;border:none;background:var(--blue-light);color:var(--blue);font-size:11px;cursor:pointer;">✏️ Éditer</button>
+            <button onclick="event.stopPropagation(); openConfirmDeleteDico(${i})" style="padding:4px 8px;border-radius:6px;border:none;background:var(--coral-light);color:var(--coral);font-size:11px;cursor:pointer;">🗑️ Supprimer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterDico() {
+  renderDico();
+}
+
+function resetSearch() {
+  document.getElementById('search-vocab').value = '';
+  filterDico();
+}
+
+function renderDialogs() {
+  const container = document.getElementById('dialogue-content');
+  
+  if (DIALOGS.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🎙️</div><div class="empty-text">Aucun dialogue disponible</div></div>';
+    return;
+  }
+
+  let html = '';
+  DIALOGS.forEach((dialog, dialogIdx) => {
+    dialog.forEach(line => {
+      const bgClass = line.speaker === 'A' ? 'blue-light' : 'green-light';
+      html += `
+        <div class="dialog-card">
+          <div class="dialog-speaker">Personne ${line.speaker}</div>
+          <div class="dialog-text">${line.text}</div>
+          <div class="dialog-phonetic">📖 ${line.phonetic}</div>
+          <div class="dialog-actions">
+            <button class="dialog-btn" onclick="speak('${line.text.replace(/'/g, "\\'")}', 'en')">🔊 Écouter</button>
+          </div>
+        </div>
+      `;
+    });
+  });
+  
+  container.innerHTML = html;
+}
+
+function initQuiz() {
+  quizPool = [...dicoData].sort(() => Math.random() - 0.5);
+  if (quizPool.length === 0) {
+    document.getElementById('quiz-container').innerHTML = '<div class="empty-state"><div class="empty-icon">❓</div><div class="empty-text">Ajoute des mots pour commencer un quiz !</div></div>';
+    document.getElementById('quiz-empty').style.display = 'block';
+    return;
+  }
+  document.getElementById('quiz-empty').style.display = 'none';
+  showNextQuiz();
+}
+
+function showNextQuiz() {
+  if (quizPool.length === 0) {
+    document.getElementById('quiz-container').innerHTML = `
+      <div style="text-align:center;padding:30px;">
+        <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+        <div style="font-size:18px;font-weight:600;color:var(--text);margin-bottom:12px;">Quiz terminé !</div>
+        <div style="font-size:14px;color:var(--text2);margin-bottom:20px;">Score: ${quizStats.correct}/${quizStats.total}</div>
+        <button class="btn-primary" onclick="initQuiz()">Recommencer</button>
+      </div>
+    `;
+    return;
+  }
+
+  const idx = Math.floor(Math.random() * quizPool.length);
+  const entry = quizPool[idx];
+  quizPool.splice(idx, 1);
+
+  const options = [entry.trans];
+  const allTrans = dicoData.map(d => d.trans);
+  while (options.length < 4 && allTrans.length > 0) {
+    const opt = allTrans[Math.floor(Math.random() * allTrans.length)];
+    if (!options.includes(opt)) options.push(opt);
+  }
+  options.sort(() => Math.random() - 0.5);
+
+  currentQuiz = { word: entry.word, correct: entry.trans, options };
+
+  const progress = ((quizStats.total + 1) / (quizStats.total + quizPool.length + 1)) * 100;
+  document.getElementById('quiz-container').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-prog">
+        <div class="quiz-prog-bar" style="width:${progress}%"></div>
+      </div>
+      <div class="quiz-meta">
+        <span>Juste: ${quizStats.correct}</span>
+        <span>Score: ${(quizStats.total > 0 ? Math.round(quizStats.correct * 100 / quizStats.total) : 0)}%</span>
+      </div>
+      <div class="quiz-question">
+        Qu'est-ce que "<strong>${currentQuiz.word}</strong>" en français ?
+      </div>
+      <div class="quiz-options">
+        ${currentQuiz.options.map(opt => `
+          <button class="quiz-opt" onclick="answerQuiz('${opt.replace(/'/g, "\\'")}')">${opt}</button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function answerQuiz(answer) {
+  quizStats.total += 1;
+  if (answer === currentQuiz.correct) {
+    quizStats.correct += 1;
+    showToast('✅ Bonne réponse !');
+  } else {
+    showToast(`❌ La réponse est: ${currentQuiz.correct}`);
+  }
+  saveQuizStats();
+  updateQuizStats();
+  setTimeout(showNextQuiz, 800);
+}
+
+function updateQuizStats() {
+  document.getElementById('quiz-correct').textContent = quizStats.correct;
+  document.getElementById('quiz-score').textContent = quizStats.total > 0 ? Math.round(quizStats.correct * 100 / quizStats.total) + '%' : '0%';
+}
+
+function renderTradHist() {
+  const list = document.getElementById('trad-hist-list');
+  if (tradHistData.length === 0) {
+    list.innerHTML = '<div style="color:var(--text3);font-size:13px;text-align:center;">Vide</div>';
+    return;
+  }
+  list.innerHTML = tradHistData.slice(0, 20).map((h, i) => `
+    <div class="trad-hist-item" onclick="document.getElementById('trad-input').value='${h.word}'; translateWord()">
+      <div class="trad-hist-en">${h.word}</div>
+      <div class="trad-hist-fr">${h.trans}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════
+
+function addNewWord() {
+  const word = document.getElementById('new-word').value.trim().toLowerCase();
+  const trans = document.getElementById('new-trans').value.trim();
+
+  if (!word || !trans) {
+    showToast('⚠️ Remplis les deux champs');
+    return;
+  }
+
+  if (dicoData.some(d => d.word === word)) {
+    showToast('⚠️ Ce mot existe déjà');
+    return;
+  }
+
+  dicoData.push({ word, trans, custom: true });
+  saveData();
+  renderDico();
+  initQuiz();
+
+  document.getElementById('new-word').value = '';
+  document.getElementById('new-trans').value = '';
+  showToast('✅ Mot ajouté !');
+}
+
+function editDicoItem(idx) {
+  const item = dicoData[idx];
+  const newWord = prompt('Modifier le mot:', item.word);
+  if (newWord === null) return;
+
+  const newTrans = prompt('Modifier la traduction:', item.trans);
+  if (newTrans === null) return;
+
+  dicoData[idx] = { word: newWord.toLowerCase().trim(), trans: newTrans.trim(), custom: item.custom };
+  saveData();
+  renderDico();
+  initQuiz();
+  showToast('✏️ Mot modifié');
+}
+
+let deleteIdx = null;
+function openConfirmDeleteDico(idx) {
+  deleteIdx = idx;
+  document.getElementById('confirm-delete-word').textContent = dicoData[idx].word;
+  document.getElementById('confirm-delete-modal').style.display = 'flex';
+}
+
+function cancelDeleteDico() {
+  document.getElementById('confirm-delete-modal').style.display = 'none';
+}
+
+function doDeleteDico() {
+  if (deleteIdx !== null) {
+    dicoData.splice(deleteIdx, 1);
+    saveData();
+    renderDico();
+    initQuiz();
+    showToast('🗑️ Mot supprimé');
+  }
+  document.getElementById('confirm-delete-modal').style.display = 'none';
+}
+
+async function translateWord() {
+  const word = document.getElementById('trad-input').value.trim();
+  if (!word) return;
+
+  const resultDiv = document.getElementById('trad-result');
+  resultDiv.innerHTML = '⏳ Traduction...';
+  resultDiv.classList.remove('hidden');
+
+  try {
+    const resp = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=en|fr`);
+    const json = await resp.json();
+
+    if (json.responseStatus === 200 && json.responseData.translatedText) {
+      const trans = json.responseData.translatedText;
+      const matches = dicoData.find(d => d.word.toLowerCase() === word.toLowerCase());
+      
+      resultDiv.innerHTML = `
+        <div class="trad-en">Anglais</div>
+        <div class="trad-word">${word}</div>
+        <div class="trad-fr"><strong>Français:</strong> ${trans}</div>
+        ${matches ? `<div style="margin-top:8px;padding:8px;background:var(--green-light);border-radius:6px;color:var(--green);font-size:12px;">✅ Ce mot est dans ton dico !</div>` : ''}
+      `;
+
+      const existing = tradHistData.find(h => h.word === word);
+      if (!existing) {
+        tradHistData.unshift({ word, trans });
+        if (tradHistData.length > 50) tradHistData.pop();
+        saveTradHist();
+        renderTradHist();
+      }
+    } else {
+      resultDiv.innerHTML = '<div style="color:var(--coral);padding:12px;">❌ Traduction non trouvée</div>';
+    }
+  } catch (err) {
+    resultDiv.innerHTML = '<div style="color:var(--coral);padding:12px;">❌ Erreur réseau</div>';
+  }
+}
+
+// ═══════════════════════════════════════════
+// UI
+// ═══════════════════════════════════════════
+
+function switchSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  
+  document.getElementById(`section-${name}`).classList.add('active');
+  event.target.closest('.nav-item').classList.add('active');
+}
+
+function switchOralTab(name) {
+  document.querySelectorAll('.sub-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  
+  document.getElementById(`oral-${name}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function openSettings() {
+  document.getElementById('settings-modal').classList.add('show');
+}
+
+function closeSettings(e) {
+  if (e && e.target.id !== 'settings-modal') return;
+  document.getElementById('settings-modal').classList.remove('show');
+}
+
+function saveCreatorName() {
+  const name = document.getElementById('creator-name').value.trim();
+  if (name) {
+    localStorage.setItem('creatorName_daughter', name);
+    showToast('✅ Nom sauvegardé');
+  }
+}
+
+function resetData() {
+  if (confirm('Réinitialiser TOUT ? Tu perdras tous tes mots personnalisés.')) {
+    dicoData = [];
+    tradHistData = [];
+    quizStats = { correct: 0, total: 0 };
+    saveData();
+    saveTradHist();
+    saveQuizStats();
+    renderDico();
+    renderTradHist();
+    updateQuizStats();
+    showToast('✅ Tout réinitialisé');
+    closeSettings(null);
+  }
+}
+
+// ═══════════════════════════════════════════
+// AUDIO
+// ═══════════════════════════════════════════
+
+function speak(text, lang = 'en') {
+  if (!window.speechSynthesis) return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = lang === 'fr' ? 'fr-FR' : 'en-US';
+  utterance.rate = 0.9;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+
+function copyToClipboard(text) {
+  if(navigator.clipboard){navigator.clipboard.writeText(text).catch(()=>fallbackCopy(text));}
+  else{fallbackCopy(text);}
+}
+
+function fallbackCopy(text) {
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  document.execCommand('copy');document.body.removeChild(ta);
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+// ═══════════════════════════════════════════
+// PWA
+// ═══════════════════════════════════════════
+
+function installPWA() {
+  if(deferredInstall){deferredInstall.prompt();deferredInstall.userChoice.then(()=>{deferredInstall=null;});}
+}
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredInstall=e;
+  document.getElementById('install-btn-wrap').style.display='block';
+});
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// ═══════════════════════════════════════════
+// SPLASH SCREEN
+// ═══════════════════════════════════════════
+
+function initSplash() {
+  const pool = COMMON_WORDS.filter(e => e.word && e.trans && e.word.length > 3);
+  if (pool.length === 0) { enterApp(); return; }
+  const entry = pool[Math.floor(Math.random() * pool.length)];
+  splashPhrase = { word: entry.word, en: entry.word, fr: entry.trans };
+
+  document.getElementById('splash-en').textContent = entry.word;
+  document.getElementById('splash-label').textContent = '🇬🇧 Appuyez pour révéler la traduction française';
+  splashStep = 0;
+
+  setTimeout(() => {
+    if (window.speechSynthesis) speak(entry.word, 'en');
+    document.getElementById('splash-sound').style.display = 'inline-block';
+  }, 600);
+}
+
+function splashSpeak() {
+  if (!splashPhrase) return;
+  if (splashStep === 0) speak(splashPhrase.en, 'en');
+  else speak(splashPhrase.fr, 'fr');
+}
+
+function splashTap() {
+  if (splashStep === 0) {
+    const frEl = document.getElementById('splash-fr');
+    frEl.textContent = splashPhrase.fr;
+    frEl.style.display = 'block';
+    document.getElementById('splash-label').textContent = '🇫🇷 Traduction révélée — tapez encore pour entrer';
+    document.getElementById('dot1').classList.remove('active');
+    document.getElementById('dot2').classList.add('active');
+    document.getElementById('splash-enter').style.display = 'block';
+    splashStep = 1;
+  } else if (splashStep === 1) {
+    enterApp();
+  }
+}
+
+function enterApp() {
+  const splash = document.getElementById('splash');
+  splash.classList.add('hidden');
+  document.getElementById('dot2').classList.remove('active');
+  document.getElementById('dot3').classList.add('active');
+  setTimeout(() => { splash.style.display = 'none'; }, 500);
+}
+
+// ═══════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════
+
+loadData();
+loadTradHist();
+loadQuizStats();
+renderDico();
+renderDialogs();
+initQuiz();
+renderTradHist();
+updateQuizStats();
+initSplash();
+
+// Clic sur splash pour révéler
+document.getElementById('splash').addEventListener('click', splashTap);
+
+</script>
+
+<!-- Confirm delete modal -->
+<div id="confirm-delete-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--surface);border-radius:16px;padding:24px 20px;max-width:320px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center;">
+    <div style="font-size:32px;margin-bottom:12px;">🗑️</div>
+    <div style="font-weight:700;font-size:16px;color:var(--text);margin-bottom:6px;">Supprimer ce mot ?</div>
+    <div style="font-size:14px;color:var(--text2);margin-bottom:4px;"><strong id="confirm-delete-word" style="color:var(--blue);"></strong></div>
+    <div style="font-size:12px;color:var(--text3);margin-bottom:20px;">Ce mot sera supprimé de ton dico.</div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="cancelDeleteDico()" style="flex:1;padding:10px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:14px;cursor:pointer;font-weight:500;">Annuler</button>
+      <button onclick="doDeleteDico()" style="flex:1;padding:10px;border-radius:var(--radius);border:none;background:#c0392b;color:#fff;font-size:14px;cursor:pointer;font-weight:600;">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
