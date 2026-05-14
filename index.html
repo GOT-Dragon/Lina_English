@@ -13,7 +13,6 @@
   --primary-light: #ffe0e0;
   --primary-dark: #a50021;
   --green: #3B6D11;
-  --green-light: #EAF3DE;
   --border: rgba(0,0,0,0.12);
   --bg: #f7f7f5;
   --surface: #ffffff;
@@ -38,23 +37,20 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
 
-/* SPLASH */
 #splash { position: fixed; inset: 0; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; z-index: 999; opacity: 1; transition: opacity 0.5s; }
 #splash.hidden { opacity: 0; }
 .splash-icon { width: 110px; height: 110px; border-radius: 24px; object-fit: cover; box-shadow: 0 8px 32px rgba(0,0,0,0.18); margin-bottom: 28px; }
 .splash-title { font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; }
-.splash-subtitle { font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 36px; }
 .splash-card { background: white; padding: 24px; border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); cursor: pointer; max-width: 280px; }
-.splash-phrase-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; }
-.splash-phrase-en { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
-.splash-phrase-fr { font-size: 15px; color: var(--green); font-style: italic; display: none; margin-bottom: 4px; }
+.splash-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 12px; }
+.splash-word { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.splash-trans { font-size: 15px; color: var(--green); font-style: italic; display: none; margin-bottom: 4px; }
 .splash-hint { font-size: 12px; color: var(--text3); margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px; }
 .splash-hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--text3); }
 .splash-hint-dot.active { background: var(--primary); }
-.splash-sound-btn { background: none; border: none; font-size: 20px; cursor: pointer; margin-top: 8px; color: var(--text3); display: none; }
-.splash-enter-btn { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--primary); font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; display: none; }
+.splash-sound { background: none; border: none; font-size: 20px; cursor: pointer; margin-top: 8px; color: var(--text3); display: none; }
+.splash-enter { padding: 12px 24px; border-radius: 20px; border: none; background: white; color: var(--primary); font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 20px; display: none; }
 
-/* APP */
 .app { display: flex; flex-direction: column; height: 100%; max-width: 680px; margin: 0 auto; }
 .main { flex: 1; overflow-y: auto; padding: 12px 14px 80px; -webkit-overflow-scrolling: touch; }
 .header { padding: 12px 14px; background: var(--surface); border-bottom: 0.5px solid var(--border); }
@@ -65,37 +61,27 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 .section { display: none; }
 .section.active { display: block; }
 
-/* TRANSLATOR */
-.trad-lang-bar { display: flex; gap: 6px; margin-bottom: 12px; }
-.trad-lang-btn { flex: 1; padding: 8px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; font-weight: 600; cursor: pointer; color: var(--primary); }
-.trad-lang-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
-.trad-input-wrap { position: relative; margin-bottom: 10px; }
-.trad-textarea { width: 100%; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none; min-height: 80px; }
-.trad-clear { position: absolute; top: 8px; right: 8px; background: none; border: none; font-size: 16px; cursor: pointer; color: var(--text3); opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-.trad-clear.visible { opacity: 1; pointer-events: all; }
-.btn-primary { padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-primary { padding: 8px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; font-size: 12px; font-weight: 600; cursor: pointer; }
+.sub-tabs { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; }
+.sub-tab { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); font-weight: 500; white-space: nowrap; }
+.sub-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-.trad-loading { padding: 20px; text-align: center; color: var(--text2); }
-.trad-error { padding: 16px; background: rgba(255,0,0,0.05); border-radius: 8px; color: var(--text); font-size: 13px; }
-.trad-result-card { background: var(--primary-light); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
-.trad-result-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
-.trad-result-text { font-size: 16px; font-weight: 600; color: var(--primary); }
-.trad-copy-btn { padding: 6px 12px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; }
-.trad-copy-btn.copied { background: var(--green-light); color: var(--green); }
-.trad-phonetic { font-size: 13px; color: var(--text2); font-style: italic; padding: 10px 0; border-top: 0.5px solid rgba(0,0,0,0.1); margin-top: 10px; }
-.trad-alt-wrap { margin-top: 12px; padding-top: 12px; border-top: 0.5px solid rgba(0,0,0,0.1); }
-.trad-alt-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.06em; }
-.trad-alt-chip { display: inline-block; padding: 6px 12px; border-radius: 16px; background: white; color: var(--primary); font-size: 12px; margin-right: 6px; margin-bottom: 6px; cursor: pointer; border: 0.5px solid var(--border); }
-.trad-examples { background: var(--surface); border-radius: 8px; padding: 12px; margin-top: 12px; }
-.trad-examples-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.trad-examples-header h4 { font-size: 12px; font-weight: 600; }
-.trad-example { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 0.5px solid var(--border); }
-.trad-example:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.trad-ex-en { font-size: 13px; line-height: 1.5; color: var(--text); }
-.trad-ex-highlight { background: rgba(220,20,60,0.2); padding: 2px 4px; border-radius: 3px; font-weight: 600; }
-.trad-add-bar { background: var(--green-light); border-radius: 8px; padding: 12px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; }
-.trad-history { display: flex; flex-wrap: wrap; gap: 6px; }
-.trad-hist-btn { padding: 6px 12px; border-radius: 6px; border: 0.5px solid var(--border); background: var(--surface); font-size: 12px; cursor: pointer; color: var(--text2); }
+.quiz-card { background: var(--surface); border-radius: 10px; border: 0.5px solid var(--border); padding: 20px; }
+.quiz-q { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.quiz-opts { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt { padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; font-size: 14px; color: var(--text); }
+.quiz-opt:hover { background: var(--surface2); }
+
+.msg-box { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-height: 380px; overflow-y: auto; }
+.msg { display: flex; }
+.msg.user { justify-content: flex-end; }
+.msg-bubble { max-width: 75%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
+.msg.user .msg-bubble { background: var(--primary); color: white; border-radius: 18px 18px 4px 18px; }
+.msg.assistant .msg-bubble { background: var(--surface2); color: var(--text); border-radius: 18px 18px 18px 4px; border: 0.5px solid var(--border); }
+
+.form-group { margin-bottom: 10px; }
+.form-group input, .form-group textarea { width: 100%; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 13px; color: var(--text); outline: none; font-family: inherit; }
+.form-group textarea { min-height: 80px; resize: none; }
 
 .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: var(--text); color: white; padding: 12px 16px; border-radius: 20px; font-size: 13px; z-index: 300; opacity: 0; transition: opacity 0.3s; }
 .toast.show { opacity: 1; }
@@ -108,19 +94,19 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   <div style="text-align: center;">
     <img class="splash-icon" src="icon192.png" alt="Lina">
     <div class="splash-title">Ma Learn English</div>
-    <div class="splash-subtitle">Validez une phrase pour commencer</div>
+    <div style="font-size: 13px; color: rgba(255,255,255,0.8); margin-bottom: 36px;">Appuyez pour commencer</div>
     <div class="splash-card" onclick="splashTap()">
-      <div class="splash-phrase-label" id="splash-label">🇬🇧 Appuyez pour révéler</div>
-      <div class="splash-phrase-en" id="splash-en"></div>
-      <button class="splash-sound-btn" onclick="event.stopPropagation();splashSpeak()" id="splash-sound">🔊</button>
-      <div class="splash-phrase-fr" id="splash-fr"></div>
+      <div class="splash-label" id="splash-label">🇬🇧 Appuyez pour révéler</div>
+      <div class="splash-word" id="splash-word"></div>
+      <button class="splash-sound" id="splash-sound" onclick="event.stopPropagation();splashSpeak()">🔊</button>
+      <div class="splash-trans" id="splash-trans"></div>
       <div class="splash-hint">
         <div class="splash-hint-dot active" id="dot1"></div>
         <div class="splash-hint-dot" id="dot2"></div>
         <div class="splash-hint-dot" id="dot3"></div>
       </div>
     </div>
-    <button class="splash-enter-btn" id="splash-enter" onclick="enterApp()">Entrer →</button>
+    <button class="splash-enter" id="splash-enter" onclick="enterApp()">Entrer →</button>
   </div>
 </div>
 
@@ -132,50 +118,77 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
 <div class="main">
 
-<!-- TRANSLATOR SECTION -->
-<section id="section-translator" class="section">
-  <div class="trad-lang-bar">
-    <button class="trad-lang-btn active" id="btn-lang-en" onclick="setLang('en')">🇬🇧 English</button>
-    <button onclick="swapLang()" style="padding: 8px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); cursor: pointer; font-size: 14px;">⇄</button>
-    <button class="trad-lang-btn" id="btn-lang-fr" onclick="setLang('fr')">🇫🇷 Français</button>
-  </div>
-  <div class="trad-input-wrap">
-    <textarea class="trad-textarea" id="trad-input" placeholder="Entrez un mot ou une phrase..." oninput="onTradInput()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();translate();}"></textarea>
-    <button class="trad-clear" id="trad-clear-btn" onclick="clearTrad()">✕</button>
-  </div>
-  <button class="btn-primary" onclick="translate()" style="width:100%;margin-bottom:14px;">🔍 Traduire</button>
-  <div id="trad-result"></div>
-  <div style="margin-top:16px;">
-    <div style="font-size:11px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.06em;font-weight:600;">Récentes</div>
-    <div class="trad-history" id="trad-hist"></div>
-  </div>
-</section>
-
-<!-- VOCAB SECTION -->
-<section id="section-vocab" class="section">
-  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Mots: <strong id="stat-count">0</strong></div>
-  <input type="text" id="search" placeholder="Chercher..." onkeyup="filterVocab()" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 14px; outline: none; margin-bottom: 12px;">
-  <div id="vocab-cards" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;"></div>
-</section>
-
-<!-- DIALOGUE SECTION -->
+<!-- DIALOGUE -->
 <section id="section-dialogue" class="section active">
-  <div id="dial-modes" style="display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto;"></div>
-  <div style="display: flex; gap: 6px; margin-bottom: 12px;">
-    <button class="btn-primary" id="lang-btn" onclick="toggleLang()" style="flex: 1; background: var(--primary); color: white;">🇬🇧 English</button>
-    <button class="btn-primary" id="mic-btn" onclick="toggleMic()" style="flex: 1; background: var(--surface); color: var(--text); border: 0.5px solid var(--border);">🎤 Parler</button>
-  </div>
-  <div id="dial-messages" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-height: 380px; overflow-y: auto; padding: 10px 0;"></div>
+  <div id="dial-msgs" class="msg-box"></div>
   <div style="display: flex; gap: 8px; padding: 12px; background: var(--surface); border-top: 0.5px solid var(--border);">
-    <textarea id="dial-input" placeholder="Tape ou parle..." style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none; min-height: 40px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendDialogue();}"></textarea>
-    <button onclick="sendDialogue()" style="padding: 10px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; font-weight: 600; height: 100%;">➤</button>
+    <textarea id="dial-input" placeholder="Tape ou parle..." style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface2); font-size: 14px; color: var(--text); outline: none; font-family: inherit; resize: none; min-height: 40px;" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg();}"></textarea>
+    <button onclick="sendMsg()" class="btn-primary">➤</button>
   </div>
 </section>
 
-<!-- QUIZ SECTION -->
+<!-- QUIZ -->
 <section id="section-quiz" class="section">
-  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Justes: <strong id="quiz-correct">0</strong> | Score: <strong id="quiz-score">0%</strong></div>
-  <div id="quiz-container"></div>
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="setQuizLang('en')">🇬🇧 EN → FR</button>
+    <button class="sub-tab" onclick="setQuizLang('fr')">🇫🇷 FR → EN</button>
+  </div>
+  <div style="margin-bottom: 12px; font-size: 12px; color: var(--text2);">Question <strong id="quiz-num">1</strong>/10</div>
+  <div id="quiz-box"></div>
+</section>
+
+<!-- VOCAB -->
+<section id="section-vocab" class="section">
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="goVocabTab('dico')">Mon Dico</button>
+    <button class="sub-tab" onclick="goVocabTab('pratique')">Pratique</button>
+  </div>
+
+  <!-- DICO -->
+  <div id="tab-dico">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+      <input type="text" id="dico-search" placeholder="Chercher..." onkeyup="renderDico()" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 13px; outline: none;">
+      <button class="btn-primary" onclick="toggleDicoForm()">+ Ajouter</button>
+    </div>
+    <div id="dico-form" style="display: none; background: var(--surface2); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+      <div class="form-group"><input id="new-word" placeholder="Mot en anglais"></div>
+      <div class="form-group"><input id="new-trans" placeholder="Traduction"></div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-primary" onclick="addWord()">Ajouter</button>
+        <button onclick="toggleDicoForm()" style="flex: 1; padding: 8px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); cursor: pointer; font-size: 12px;">Annuler</button>
+      </div>
+    </div>
+    <div id="dico-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px;"></div>
+  </div>
+
+  <!-- PRATIQUE -->
+  <div id="tab-pratique" style="display: none;">
+    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+      <input type="text" id="phrase-search" placeholder="Chercher..." onkeyup="renderPhrases()" style="flex: 1; padding: 10px 12px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); font-size: 13px; outline: none;">
+      <button class="btn-primary" onclick="togglePhraseForm()">+ Créer</button>
+    </div>
+    <div id="phrase-form" style="display: none; background: var(--surface2); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+      <div class="form-group"><input id="phrase-word" placeholder="Mot-clé"></div>
+      <div class="form-group"><textarea id="phrase-en" placeholder="Phrase complète en anglais"></textarea></div>
+      <div class="form-group"><input id="phrase-fr" placeholder="Traduction (optionnel)"></div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-primary" onclick="addPhrase()">Ajouter</button>
+        <button onclick="togglePhraseForm()" style="flex: 1; padding: 8px; border-radius: 8px; border: 0.5px solid var(--border); background: var(--surface); cursor: pointer; font-size: 12px;">Annuler</button>
+      </div>
+    </div>
+    <div id="phrases-grid"></div>
+  </div>
+</section>
+
+<!-- TRADUCTEUR -->
+<section id="section-translator" class="section">
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="setTradMode('en')">🇬🇧 EN → FR</button>
+    <button class="sub-tab" onclick="setTradMode('fr')">🇫🇷 FR → EN</button>
+  </div>
+  <div class="form-group"><textarea id="trad-input" placeholder="Entrez un mot ou une phrase..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();translate();}"></textarea></div>
+  <button class="btn-primary" style="width: 100%; margin-bottom: 12px;" onclick="translate()">Traduire</button>
+  <div id="trad-result"></div>
 </section>
 
 </div>
@@ -204,91 +217,70 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 <div id="toast" class="toast"></div>
 
 <script>
-let dicoData = [], tradLang = 'en', tradHistory = [], tradTimer = null, splashStep = 0, splashPhrase = null;
-let dialHistory = [], dialMode = 'free', dialLang = 'en', dialMicActive = false, dialAutoListen = false;
-let quizPool = [], quizStats = { correct: 0, total: 0 }, currentQuiz = null;
-
-const VOCAB = [
-  { word: 'vocabulary', trans: 'vocabulaire' }, { word: 'pronunciation', trans: 'prononciation' }, { word: 'grammar', trans: 'grammaire' },
-  { word: 'communicate', trans: 'communiquer' }, { word: 'understand', trans: 'comprendre' }, { word: 'difficult', trans: 'difficile' },
-  { word: 'interesting', trans: 'intéressant' }, { word: 'experience', trans: 'expérience' }, { word: 'adventure', trans: 'aventure' },
-  { word: 'technology', trans: 'technologie' }, { word: 'opportunity', trans: 'opportunité' }, { word: 'environment', trans: 'environnement' },
+// Quiz de niveau collège (pas les mots simples du vocab par défaut)
+const QUIZ_WORDS = [
+  { en: 'accommodate', fr: 'accueillir' },
+  { en: 'persevere', fr: 'persévérer' },
+  { en: 'adequate', fr: 'adéquat' },
+  { en: 'meticulous', fr: 'méticuleux' },
+  { en: 'resilient', fr: 'résilient' },
+  { en: 'complacent', fr: 'complaisant' },
+  { en: 'pragmatic', fr: 'pragmatique' },
+  { en: 'eloquent', fr: 'éloquent' },
+  { en: 'ambiguous', fr: 'ambigu' },
+  { en: 'transcendent', fr: 'transcendant' },
+  { en: 'ephemeral', fr: 'éphémère' },
+  { en: 'ubiquitous', fr: 'omniprésent' },
+  { en: 'candid', fr: 'sincère' },
+  { en: 'verbose', fr: 'verbeux' },
+  { en: 'serendipity', fr: 'sérendipité' },
+  { en: 'juxtapose', fr: 'juxtaposer' },
+  { en: 'pragmatic', fr: 'réaliste' },
+  { en: 'nostalgic', fr: 'nostalgique' },
+  { en: 'meager', fr: 'maigre' },
+  { en: 'vindicate', fr: 'justifier' }
 ];
 
-const MODES = {
-  free: 'Discussion libre',
-  restaurant: 'Restaurant',
-  meeting: 'Réunion',
-  travel: 'Voyage',
-  interview: 'Interview',
-  shopping: 'Shopping',
-  phone: 'Téléphone',
-  debate: 'Débat'
-};
-
-const DIAL_SYSTEM = {
-  free: `You are a friendly English conversation partner. Keep replies 2-4 sentences.`,
-  restaurant: `You are a waiter. Keep replies 2-4 sentences.`,
-  meeting: `You are a colleague in a meeting. Keep replies 2-4 sentences.`,
-  travel: `You are airport staff. Keep replies 2-4 sentences.`,
-  interview: `You are a recruiter. Ask questions. 2-4 sentences.`,
-  shopping: `You are a shop assistant. Keep replies 2-4 sentences.`,
-  phone: `You are on a professional call. Keep replies 2-4 sentences.`,
-  debate: `You are a debate partner. Respond thoughtfully. 2-4 sentences.`
-};
-
-const DIAL_STARTER = {
-  free: `Hello! I'm happy to chat with you in English today.`,
-  restaurant: `Good evening! Welcome. Can I start you off with something to drink?`,
-  meeting: `Good morning. Thanks for joining. Let's get started.`,
-  travel: `Welcome! How can I help you today?`,
-  interview: `Thank you for coming in. Could you tell me about yourself?`,
-  shopping: `Hi! Are you looking for something specific?`,
-  phone: `Hello, I wanted to follow up on your enquiry.`,
-  debate: `I'd love to hear your thoughts on something.`
-};
+let dicoData = [], phraseData = [];
+let dialHistory = [], quizState = { current: 0, correct: 0, lang: 'en', questions: [], answered: false };
+let splashStep = 0, splashWord = null;
 
 function load() {
   dicoData = JSON.parse(localStorage.getItem('lina_dico') || '[]');
-  VOCAB.forEach(v => { if (!dicoData.find(d => d.word === v.word)) dicoData.push(v); });
-  tradHistory = JSON.parse(localStorage.getItem('lina_trad_hist') || '[]');
-  tradLang = localStorage.getItem('lina_trad_lang') || 'en';
-  quizStats = JSON.parse(localStorage.getItem('lina_quiz') || '{"correct":0,"total":0}');
-  updateLangBtns();
-  renderVocab();
-  renderTradHist();
+  phraseData = JSON.parse(localStorage.getItem('lina_phrases') || '[]');
+  renderDico();
+  renderPhrases();
   initQuiz();
-  initDialogue();
   initSplash();
 }
 
+// ═══ SPLASH ═══
 function initSplash() {
-  const pool = dicoData.filter(e => e.word && e.trans && e.word.length > 3);
-  if (pool.length === 0) { enterApp(); return; }
+  const pool = dicoData.length > 0 ? dicoData : QUIZ_WORDS.slice(0, 5);
   const entry = pool[Math.floor(Math.random() * pool.length)];
-  splashPhrase = { word: entry.word, en: entry.word, fr: entry.trans };
-  document.getElementById('splash-en').textContent = entry.word;
-  document.getElementById('splash-label').textContent = '🇬🇧 Appuyez pour révéler';
+  splashWord = entry;
+  document.getElementById('splash-word').textContent = entry.en;
   splashStep = 0;
-  setTimeout(() => { if (window.speechSynthesis) speak(entry.word, 'en'); document.getElementById('splash-sound').style.display = 'inline-block'; }, 600);
+  // Parler le mot DIRECTEMENT sans "Hello"
+  setTimeout(() => { speak(entry.en, 'en'); document.getElementById('splash-sound').style.display = 'inline-block'; }, 400);
 }
 
 function splashSpeak() {
-  if (!splashPhrase) return;
-  if (splashStep === 0) speak(splashPhrase.en, 'en');
-  else speak(splashPhrase.fr, 'fr');
+  if (!splashWord) return;
+  if (splashStep === 0) speak(splashWord.en, 'en');
+  else speak(splashWord.fr, 'fr');
 }
 
 function splashTap() {
   if (splashStep === 0) {
-    document.getElementById('splash-fr').textContent = splashPhrase.fr;
-    document.getElementById('splash-fr').style.display = 'block';
+    document.getElementById('splash-trans').textContent = splashWord.fr;
+    document.getElementById('splash-trans').style.display = 'block';
     document.getElementById('splash-label').textContent = '🇫🇷 Tapez encore pour entrer';
     document.getElementById('dot1').classList.remove('active');
     document.getElementById('dot2').classList.add('active');
     document.getElementById('splash-enter').style.display = 'block';
     splashStep = 1;
-  } else if (splashStep === 1) {
+  } else {
     enterApp();
   }
 }
@@ -301,261 +293,267 @@ function enterApp() {
   setTimeout(() => { splash.style.display = 'none'; }, 500);
 }
 
-function speak(text, lang, onDone) {
+function speak(text, lang) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = lang === 'en' ? 'en-GB' : 'fr-FR';
   u.rate = 0.9;
-  if (onDone) u.onend = onDone;
   window.speechSynthesis.speak(u);
 }
 
-function setLang(lang) {
-  tradLang = lang;
-  localStorage.setItem('lina_trad_lang', tradLang);
-  updateLangBtns();
-  document.getElementById('trad-result').innerHTML = '';
-  document.getElementById('trad-input').value = '';
-  document.getElementById('trad-input').focus();
-}
-
-function swapLang() {
-  tradLang = tradLang === 'en' ? 'fr' : 'en';
-  localStorage.setItem('lina_trad_lang', tradLang);
-  updateLangBtns();
-}
-
-function updateLangBtns() {
-  document.getElementById('btn-lang-en').classList.toggle('active', tradLang === 'en');
-  document.getElementById('btn-lang-fr').classList.toggle('active', tradLang === 'fr');
-}
-
-function onTradInput() {
-  const val = document.getElementById('trad-input').value;
-  document.getElementById('trad-clear-btn').classList.toggle('visible', val.length > 0);
-  clearTimeout(tradTimer);
-  if (val.trim().length >= 2) tradTimer = setTimeout(translate, 600);
-  else document.getElementById('trad-result').innerHTML = '';
-}
-
-function clearTrad() {
-  document.getElementById('trad-input').value = '';
-  document.getElementById('trad-clear-btn').classList.remove('visible');
-  document.getElementById('trad-result').innerHTML = '';
-}
-
-function parseGroqJSON(raw) {
-  if (!raw) return null;
-  let clean = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-  const start = clean.indexOf('{');
-  const end = clean.lastIndexOf('}');
-  if (start === -1 || end === -1) return null;
-  clean = clean.slice(start, end + 1);
-  clean = clean.replace(/[\u0000-\u001F\u007F]/g, ' ');
-  try { return JSON.parse(clean); } catch(e) { return null; }
-}
-
-async function translate() {
-  const word = document.getElementById('trad-input').value.trim();
-  if (!word) return;
-  const el = document.getElementById('trad-result');
-  el.innerHTML = `<div class="trad-loading">⏳ Traduction en cours...</div>`;
-  const srcLang = tradLang;
-  const tgtLang = tradLang === 'en' ? 'fr' : 'en';
-
-  const histKey = word + '|' + srcLang;
-  if (!tradHistory.find(h => h.key === histKey)) {
-    tradHistory.unshift({ key: histKey, word, lang: srcLang });
-    if (tradHistory.length > 12) tradHistory.pop();
-    localStorage.setItem('lina_trad_hist', JSON.stringify(tradHistory));
-    renderTradHist();
-  }
-
+// ═══ DIALOGUE ═══
+async function sendMsg() {
+  const text = document.getElementById('dial-input').value.trim();
+  if (!text) return;
+  document.getElementById('dial-input').value = '';
+  
+  const box = document.getElementById('dial-msgs');
+  const userDiv = document.createElement('div');
+  userDiv.className = 'msg user';
+  userDiv.innerHTML = `<div class="msg-bubble">${text}</div>`;
+  box.appendChild(userDiv);
+  box.scrollTop = box.scrollHeight;
+  
+  dialHistory.push({ role: 'user', content: text });
+  
+  const key = localStorage.getItem('groq_key');
+  if (!key) { showToast('⚠️ Ajoute ta clé Groq'); return; }
+  
   try {
-    const groqKey = localStorage.getItem('groq_key') || '';
-    let mainTrans = '';
-    let alts = [];
-
-    if (groqKey) {
-      const fromLabel = srcLang === 'en' ? 'English' : 'French';
-      const toLabel = tgtLang === 'en' ? 'English' : 'French';
-      const prompt = `You are a professional ${fromLabel}→${toLabel} translator. Translate: "${word}". Reply ONLY JSON: {"main":"translation","alts":["alt1","alt2"]}`;
-      const gRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + groqKey },
-        body: JSON.stringify({ model: 'mixtral-8x7b-32768', max_tokens: 200, messages: [{ role: 'user', content: prompt }] })
-      });
-      const gData = await gRes.json();
-      const parsed = parseGroqJSON(gData.choices?.[0]?.message?.content || '{}');
-      mainTrans = parsed?.main || '';
-      alts = parsed?.alts || [];
-      if (!mainTrans) throw new Error('Empty');
-    } else {
-      const langPair = `${srcLang}|${tgtLang}`;
-      const mmUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(word)}&langpair=${langPair}`;
-      const mmRes = await fetch(mmUrl);
-      const mmData = await mmRes.json();
-      mainTrans = mmData.responseData?.translatedText || '';
-      if (!mainTrans) throw new Error('No translation');
-      const matches = mmData.matches || [];
-      alts = [...new Set(matches.filter(m => m.translation && m.translation.toLowerCase() !== mainTrans.toLowerCase()).map(m => m.translation).slice(0, 6))];
-    }
-
-    let phonetic = '';
-    let examples = [];
-    if (srcLang === 'en' && word.split(' ').length === 1) {
-      try {
-        const fdRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`);
-        if (fdRes.ok) {
-          const fdData = await fdRes.json();
-          const entry = fdData[0];
-          phonetic = entry.phonetics?.find(p => p.text)?.text || '';
-          entry.meanings?.forEach(m => {
-            m.definitions?.forEach(d => {
-              if (d.example) examples.push({ en: d.example, type: m.partOfSpeech });
-            });
-          });
-          examples = examples.slice(0, 4);
-        }
-      } catch(e) {}
-    }
-
-    if (srcLang === 'fr' && mainTrans && mainTrans.split(' ').length === 1) {
-      try {
-        const fdRes = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(mainTrans.toLowerCase())}`);
-        if (fdRes.ok) {
-          const fdData = await fdRes.json();
-          const entry = fdData[0];
-          phonetic = entry.phonetics?.find(p => p.text)?.text || '';
-          entry.meanings?.forEach(m => {
-            m.definitions?.forEach(d => {
-              if (d.example) examples.push({ en: d.example, type: m.partOfSpeech });
-            });
-          });
-          examples = examples.slice(0, 4);
-        }
-      } catch(e) {}
-    }
-
-    const copyEsc = mainTrans.replace(/'/g, "\\'");
-    let h = `<div class="trad-result-card">
-      <div class="trad-result-header">
-        <div>
-          <div style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">${tgtLang === 'fr' ? '🇫🇷 Traduction' : '🇬🇧 Translation'}</div>
-          <div class="trad-result-text">${mainTrans}</div>
-        </div>
-        <button class="trad-copy-btn" onclick="copyTrad(this,'${copyEsc}')">📋 Copier</button>
-      </div>`;
-
-    if (phonetic) {
-      h += `<div class="trad-phonetic">${srcLang === 'en' ? word : mainTrans} ${phonetic}</div>`;
-    }
-
-    if (alts.length > 0) {
-      h += `<div class="trad-alt-wrap">
-        <div class="trad-alt-label">Autres traductions</div>
-        <div>${alts.map(a => {
-          const ae = a.replace(/'/g, "\\'");
-          return `<span class="trad-alt-chip" onclick="useAlt('${ae}')">${a}</span>`;
-        }).join('')}</div>
-      </div>`;
-    }
-
-    h += `</div>`;
-
-    if (examples.length > 0) {
-      h += `<div class="trad-examples">
-        <div class="trad-examples-header">
-          <h4>Exemples d'utilisation</h4>
-          <span style="font-size:11px;color:var(--text3);">${examples.length} ex.</span>
-        </div>`;
-      const searchWord = srcLang === 'en' ? word : mainTrans;
-      examples.forEach(ex => {
-        const re = new RegExp(`\\b(${searchWord.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})\\b`, 'gi');
-        const highlighted = ex.en.replace(re, '<span class="trad-ex-highlight">$1</span>');
-        h += `<div class="trad-example">
-          <div class="trad-ex-en">${highlighted}</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px;">${ex.type}</div>
-        </div>`;
-      });
-      h += `</div>`;
-    }
-
-    const inDico = dicoData.find(d => d.word.toLowerCase() === (srcLang === 'en' ? word : mainTrans).toLowerCase());
-    if (!inDico && word.split(' ').length <= 3) {
-      const engWord = srcLang === 'en' ? word : mainTrans;
-      const frWord = srcLang === 'en' ? mainTrans : word;
-      const ew = engWord.replace(/'/g, "\\'");
-      const fw = frWord.replace(/'/g, "\\'");
-      h += `<div class="trad-add-bar">
-        <span>Ajouter "<strong>${engWord}</strong>" ?</span>
-        <button class="btn-primary" style="font-size:12px;padding:7px 14px;" onclick="addFromTrad('${ew}','${fw}')">+ Ajouter</button>
-      </div>`;
-    }
-
-    el.innerHTML = h;
-  } catch(err) {
-    el.innerHTML = `<div class="trad-error">❌ Traduction introuvable pour "<strong>${word}</strong>". Vérifiez l'orthographe.</div>`;
+    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+      body: JSON.stringify({
+        model: 'mixtral-8x7b-32768',
+        max_tokens: 300,
+        messages: [{ role: 'system', content: 'You are a friendly English conversation partner. Keep replies 2-4 sentences.' }, ...dialHistory.slice(-10)]
+      })
+    });
+    const d = await r.json();
+    const reply = d.choices?.[0]?.message?.content || '...';
+    
+    const assistDiv = document.createElement('div');
+    assistDiv.className = 'msg assistant';
+    assistDiv.innerHTML = `<div class="msg-bubble">${reply}</div>`;
+    box.appendChild(assistDiv);
+    box.scrollTop = box.scrollHeight;
+    
+    dialHistory.push({ role: 'assistant', content: reply });
+    speak(reply, 'en');
+  } catch (e) {
+    showToast('❌ Erreur');
   }
 }
 
-function copyTrad(btn, text) {
-  navigator.clipboard.writeText(text);
-  btn.textContent = '✓ Copié !';
-  btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = '📋 Copier'; btn.classList.remove('copied'); }, 1800);
-  showToast('✅ Copié !');
+// ═══ QUIZ ═══
+function initQuiz() {
+  const 10words = QUIZ_WORDS.sort(() => Math.random() - 0.5).slice(0, 10);
+  quizState = { current: 0, correct: 0, lang: 'en', questions: 10words, answered: false };
+  showQuizQuestion();
 }
 
-function useAlt(text) {
-  const el = document.querySelector('.trad-result-text');
-  if (el) el.textContent = text;
-  const copyBtn = document.querySelector('.trad-copy-btn');
-  if (copyBtn) copyBtn.onclick = () => copyTrad(copyBtn, text);
+function showQuizQuestion() {
+  if (quizState.current >= 10) {
+    document.getElementById('quiz-box').innerHTML = `
+      <div class="quiz-card">
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 48px; margin-bottom: 16px;">🎉</div>
+          <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Quiz terminé !</div>
+          <div style="font-size: 16px; margin-bottom: 16px;">Score: <strong>${quizState.correct}/10</strong></div>
+          <button class="btn-primary" onclick="initQuiz()">Recommencer</button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  const w = quizState.questions[quizState.current];
+  const isEnglish = quizState.lang === 'en';
+  const question = isEnglish ? w.en : w.fr;
+  const correct = isEnglish ? w.fr : w.en;
+  
+  const otherWords = QUIZ_WORDS.filter(x => x !== w);
+  const opts = [correct];
+  while (opts.length < 4 && otherWords.length > 0) {
+    const other = otherWords.splice(Math.floor(Math.random() * otherWords.length), 1)[0];
+    const option = isEnglish ? other.fr : other.en;
+    if (!opts.includes(option)) opts.push(option);
+  }
+  opts.sort(() => Math.random() - 0.5);
+  
+  document.getElementById('quiz-num').textContent = quizState.current + 1;
+  document.getElementById('quiz-box').innerHTML = `
+    <div class="quiz-card">
+      <div class="quiz-q">${isEnglish ? '🇬🇧' : '🇫🇷'} ${question}</div>
+      <div class="quiz-opts">${opts.map(o => `<button class="quiz-opt" onclick="answerQuiz('${o.replace(/'/g, "\\'")}')">${o}</button>`).join('')}</div>
+    </div>
+  `;
 }
 
-function addFromTrad(engWord, frWord) {
-  if (!engWord || !frWord) { showToast('⚠️ Erreur'); return; }
-  if (dicoData.some(d => d.word.toLowerCase() === engWord.toLowerCase())) { showToast('⚠️ Déjà existant'); return; }
-  dicoData.unshift({ word: engWord, trans: frWord, custom: true });
+function answerQuiz(answer) {
+  const w = quizState.questions[quizState.current];
+  const correct = quizState.lang === 'en' ? w.fr : w.en;
+  if (answer === correct) {
+    quizState.correct++;
+    showToast('✅');
+  } else {
+    showToast('❌');
+  }
+  quizState.current++;
+  setTimeout(showQuizQuestion, 600);
+}
+
+function setQuizLang(lang) {
+  quizState.lang = lang;
+  quizState.current = 0;
+  quizState.correct = 0;
+  document.querySelectorAll('#section-quiz .sub-tab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  showQuizQuestion();
+}
+
+// ═══ DICO ═══
+function addWord() {
+  const w = document.getElementById('new-word').value.trim().toLowerCase();
+  const t = document.getElementById('new-trans').value.trim();
+  if (!w || !t) { showToast('⚠️ Complétez'); return; }
+  dicoData.push({ en: w, fr: t });
   localStorage.setItem('lina_dico', JSON.stringify(dicoData));
-  showToast(`✅ "${engWord}" ajouté !`);
-  const bar = document.querySelector('.trad-add-bar');
-  if (bar) bar.innerHTML = `<span style="color:var(--green);">✓ <strong>${engWord}</strong> → ${frWord} ajouté</span>`;
+  document.getElementById('new-word').value = '';
+  document.getElementById('new-trans').value = '';
+  toggleDicoForm();
+  renderDico();
+  showToast('✅ Ajouté');
 }
 
-function renderTradHist() {
-  const h = document.getElementById('trad-hist');
-  if (tradHistory.length === 0) { h.innerHTML = ''; return; }
-  h.innerHTML = tradHistory.map(t => `<button class="trad-hist-btn" onclick="useTradHist('${t.word.replace(/'/g, "\\'")}')">${t.word}</button>`).join('');
-}
-
-function useTradHist(word) {
-  document.getElementById('trad-input').value = word;
-  translate();
-}
-
-function renderVocab() {
-  const search = document.getElementById('search').value.toLowerCase();
-  const filtered = dicoData.filter(d => d.word.includes(search) || d.trans.includes(search));
-  document.getElementById('stat-count').textContent = dicoData.length;
-  document.getElementById('vocab-cards').innerHTML = filtered.map(d => `
-    <div style="perspective: 800px; cursor: pointer; height: 100px;" onclick="this.classList.toggle('flipped')" class="flip-card">
-      <div style="position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.38s;" class="flip-inner">
+function renderDico() {
+  const search = document.getElementById('dico-search').value.toLowerCase();
+  const filtered = dicoData.filter(d => d.en.includes(search) || d.fr.includes(search));
+  document.getElementById('dico-grid').innerHTML = filtered.map((d, i) => `
+    <div style="perspective: 800px; cursor: pointer; height: 100px;" onclick="this.classList.toggle('flipped')" class="dico-card">
+      <div style="position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.38s;" class="dico-flip">
         <div style="position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 8px; text-align: center; background: var(--surface);">
-          <div style="font-size: 14px; font-weight: 600; color: var(--text);">${d.word}</div>
+          <div style="font-size: 14px; font-weight: 600; color: var(--text);">${d.en}</div>
         </div>
         <div style="position: absolute; inset: 0; backface-visibility: hidden; border-radius: 8px; border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; padding: 8px; text-align: center; background: var(--primary-light); transform: rotateY(180deg);">
-          <div style="font-size: 12px; color: var(--primary); font-weight: 500;">${d.trans}</div>
+          <div style="font-size: 12px; color: var(--primary); font-weight: 500;">${d.fr}</div>
         </div>
       </div>
     </div>
   `).join('');
 }
 
-function filterVocab() { renderVocab(); }
+function toggleDicoForm() { document.getElementById('dico-form').style.display = document.getElementById('dico-form').style.display === 'none' ? 'block' : 'none'; }
 
+// ═══ PHRASES ═══
+function addPhrase() {
+  const w = document.getElementById('phrase-word').value.trim();
+  const en = document.getElementById('phrase-en').value.trim();
+  const fr = document.getElementById('phrase-fr').value.trim();
+  if (!w || !en) { showToast('⚠️ Complétez'); return; }
+  phraseData.push({ word: w, en, fr });
+  localStorage.setItem('lina_phrases', JSON.stringify(phraseData));
+  document.getElementById('phrase-word').value = '';
+  document.getElementById('phrase-en').value = '';
+  document.getElementById('phrase-fr').value = '';
+  togglePhraseForm();
+  renderPhrases();
+  showToast('✅ Phrase créée');
+}
+
+function renderPhrases() {
+  const search = document.getElementById('phrase-search').value.toLowerCase();
+  const filtered = phraseData.filter(d => d.word.includes(search) || d.en.includes(search));
+  document.getElementById('phrases-grid').innerHTML = filtered.map((d, i) => `
+    <div style="background: var(--surface); border-radius: 8px; border: 0.5px solid var(--border); padding: 12px; margin-bottom: 10px; cursor: pointer;" onclick="cyclePhrase(this)">
+      <div style="font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px;">${d.word}</div>
+      <div style="font-size: 11px; color: var(--text3);">Appuyez pour révéler</div>
+      <div style="display: none; font-size: 13px; color: var(--text); margin-top: 8px; line-height: 1.5;" class="phrase-en">${d.en}</div>
+      <div style="display: none; font-size: 13px; color: var(--text2); margin-top: 4px;" class="phrase-fr">${d.fr || '<em>Pas de traduction</em>'}</div>
+    </div>
+  `).join('');
+}
+
+function cyclePhrase(el) {
+  const en = el.querySelector('.phrase-en');
+  const fr = el.querySelector('.phrase-fr');
+  const hint = el.querySelector('[style*="Appuyez"]');
+  
+  if (fr.style.display !== 'none') {
+    en.style.display = 'none';
+    fr.style.display = 'none';
+    hint.style.display = 'block';
+  } else if (en.style.display !== 'none') {
+    en.style.display = 'none';
+    fr.style.display = 'block';
+    hint.style.display = 'none';
+  } else {
+    en.style.display = 'block';
+    fr.style.display = 'none';
+    hint.style.display = 'none';
+  }
+}
+
+function togglePhraseForm() { document.getElementById('phrase-form').style.display = document.getElementById('phrase-form').style.display === 'none' ? 'block' : 'none'; }
+
+function goVocabTab(tab) {
+  document.getElementById('tab-dico').style.display = tab === 'dico' ? 'block' : 'none';
+  document.getElementById('tab-pratique').style.display = tab === 'pratique' ? 'block' : 'none';
+  document.querySelectorAll('#section-vocab .sub-tab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ═══ TRADUCTEUR ═══
+let tradLang = 'en';
+
+async function translate() {
+  const text = document.getElementById('trad-input').value.trim();
+  if (!text) { showToast('⚠️ Écrivez du texte'); return; }
+  
+  const srcLang = tradLang;
+  const tgtLang = tradLang === 'en' ? 'fr' : 'en';
+  
+  document.getElementById('trad-result').innerHTML = '<div style="padding: 10px; color: var(--text3);">⏳ Traduction...</div>';
+  
+  try {
+    const key = localStorage.getItem('groq_key');
+    let result = '';
+    
+    if (key) {
+      const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
+        body: JSON.stringify({
+          model: 'mixtral-8x7b-32768',
+          max_tokens: 200,
+          messages: [{ role: 'user', content: `Translate to ${tgtLang === 'fr' ? 'French' : 'English'}: "${text}"` }]
+        })
+      });
+      const d = await r.json();
+      result = d.choices?.[0]?.message?.content || '';
+    }
+    
+    if (!result) {
+      const mmUrl = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${srcLang}|${tgtLang}`;
+      const mmRes = await fetch(mmUrl);
+      const mmData = await mmRes.json();
+      result = mmData.responseData?.translatedText || 'Erreur';
+    }
+    
+    document.getElementById('trad-result').innerHTML = `<div style="background: var(--primary-light); border-radius: 10px; padding: 16px;"><div style="font-size: 16px; font-weight: 600; color: var(--primary);">${result}</div></div>`;
+  } catch {
+    document.getElementById('trad-result').innerHTML = '<div style="color:red;">❌ Erreur</div>';
+  }
+}
+
+function setTradMode(lang) {
+  tradLang = lang;
+  document.querySelectorAll('#section-translator .sub-tab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ═══ UI ═══
 function switchSection(name) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -568,227 +566,6 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2000);
-}
-
-function initQuiz() {
-  quizPool = [...dicoData, ...VOCAB].filter(w => w.word && w.trans).sort(() => Math.random() - 0.5);
-  document.getElementById('quiz-correct').textContent = quizStats.correct;
-  document.getElementById('quiz-score').textContent = quizStats.total > 0 ? Math.round(quizStats.correct * 100 / quizStats.total) + '%' : '0%';
-  if (quizPool.length === 0) {
-    document.getElementById('quiz-container').innerHTML = '<div style="text-align:center;padding:30px;"><div style="font-size:48px;">❓</div><div>Ajoute des mots</div></div>';
-    return;
-  }
-  showQuiz();
-}
-
-function showQuiz() {
-  if (quizPool.length === 0) {
-    document.getElementById('quiz-container').innerHTML = `<div style="text-align:center;padding:30px;"><div style="font-size:48px;">🎉</div><div style="font-size:16px;font-weight:600;margin-bottom:12px;">Score: ${quizStats.correct}/${quizStats.total}</div><button onclick="initQuiz()" class="btn-primary">Recommencer</button></div>`;
-    return;
-  }
-  const idx = Math.floor(Math.random() * quizPool.length);
-  const w = quizPool[idx];
-  quizPool.splice(idx, 1);
-  const opts = [w.trans];
-  const allTrans = [...dicoData, ...VOCAB].map(d => d.trans);
-  while (opts.length < 4) {
-    const o = allTrans[Math.floor(Math.random() * allTrans.length)];
-    if (!opts.includes(o)) opts.push(o);
-  }
-  opts.sort(() => Math.random() - 0.5);
-  currentQuiz = { w: w.word, correct: w.trans, opts };
-  document.getElementById('quiz-container').innerHTML = `
-    <div style="background: var(--surface); border-radius: 10px; border: 0.5px solid var(--border); padding: 20px;">
-      <div style="font-size:12px;color:var(--text3);margin-bottom:12px;">Justes: ${quizStats.correct} | ${quizStats.total>0?Math.round(quizStats.correct*100/quizStats.total)+'%':'0%'}</div>
-      <div style="font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px;">Qu'est-ce que "<strong>${currentQuiz.w}</strong>" ?</div>
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        ${currentQuiz.opts.map(o => `<button onclick="answerQuiz('${o.replace(/'/g, "\\'")}')" style="padding:12px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface);cursor:pointer;font-size:14px;color:var(--text);">${o}</button>`).join('')}
-      </div>
-    </div>
-  `;
-}
-
-function answerQuiz(a) {
-  quizStats.total++;
-  if (a === currentQuiz.correct) {
-    quizStats.correct++;
-    showToast('✅');
-  } else {
-    showToast('❌ Réponse: ' + currentQuiz.correct);
-  }
-  document.getElementById('quiz-correct').textContent = quizStats.correct;
-  document.getElementById('quiz-score').textContent = Math.round(quizStats.correct * 100 / quizStats.total) + '%';
-  localStorage.setItem('lina_quiz', JSON.stringify(quizStats));
-  setTimeout(showQuiz, 800);
-}
-
-function initDialogue() {
-  document.getElementById('dial-modes').innerHTML = Object.entries(MODES).map(([k, v]) => `
-    <button class="btn-primary ${k==='free'?'active':''}" onclick="setMode('${k}')" style="flex: 0 0 auto; font-size: 12px; padding: 6px 12px; ${k==='free'?'background: var(--primary); color: white;':'background: var(--surface); color: var(--text2); border: 0.5px solid var(--border);'}">${v}</button>
-  `).join('');
-  resetDialogue();
-}
-
-function setMode(m) {
-  dialMode = m;
-  document.querySelectorAll('#dial-modes button').forEach(b => {
-    if (b.textContent.includes(MODES[m])) {
-      b.style.background = 'var(--primary)';
-      b.style.color = 'white';
-      b.style.borderColor = 'var(--primary)';
-    } else {
-      b.style.background = 'var(--surface)';
-      b.style.color = 'var(--text2)';
-      b.style.border = '0.5px solid var(--border)';
-    }
-  });
-  resetDialogue();
-}
-
-function resetDialogue() {
-  dialHistory = [];
-  dialAutoListen = false;
-  window.speechSynthesis.cancel();
-  stopMic();
-  updateMicBtn('idle');
-  document.getElementById('dial-messages').innerHTML = '';
-  const starter = DIAL_STARTER[dialMode] || DIAL_STARTER.free;
-  dialHistory.push({ role: 'assistant', content: starter });
-  addDialMsg('assistant', starter);
-}
-
-function toggleLang() {
-  dialLang = dialLang === 'en' ? 'bilingual' : 'en';
-  const btn = document.getElementById('lang-btn');
-  btn.textContent = dialLang === 'bilingual' ? '🇫🇷 Bilingual' : '🇬🇧 English';
-  btn.style.background = dialLang === 'bilingual' ? 'var(--primary)' : 'var(--surface)';
-  btn.style.color = dialLang === 'bilingual' ? 'white' : 'var(--text)';
-  if (dialLang === 'bilingual') btn.style.border = 'none';
-  else btn.style.border = '0.5px solid var(--border)';
-}
-
-function toggleMic() {
-  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    showToast('Micro non supporté');
-    return;
-  }
-  if (dialAutoListen || dialMicActive) {
-    dialAutoListen = false;
-    stopMic();
-    window.speechSynthesis.cancel();
-    updateMicBtn('idle');
-  } else {
-    dialAutoListen = true;
-    startMic();
-  }
-}
-
-function updateMicBtn(state) {
-  const btn = document.getElementById('mic-btn');
-  if (state === 'listening') {
-    btn.textContent = '🔴 Listening';
-    btn.style.background = 'rgba(231,76,60,.1)';
-    btn.style.color = 'var(--text)';
-  } else if (state === 'waiting') {
-    btn.textContent = '⏳ Thinking';
-    btn.style.background = 'rgba(243,156,18,.1)';
-    btn.style.color = 'var(--text)';
-  } else {
-    btn.textContent = '🎤 Parler';
-    btn.style.background = 'var(--surface)';
-    btn.style.color = 'var(--text)';
-    btn.style.border = '0.5px solid var(--border)';
-  }
-}
-
-function startMic() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const rec = new SpeechRecognition();
-  rec.lang = 'en-GB';
-  rec.continuous = false;
-  rec.interimResults = true;
-  const input = document.getElementById('dial-input');
-  rec.onstart = () => { dialMicActive = true; updateMicBtn('listening'); };
-  rec.onresult = (e) => {
-    let final = '', interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) final += e.results[i][0].transcript;
-      else interim += e.results[i][0].transcript;
-    }
-    input.value = (final || interim).trim();
-  };
-  rec.onend = () => {
-    dialMicActive = false;
-    if (input.value.trim()) {
-      updateMicBtn('waiting');
-      setTimeout(sendDialogue, 200);
-    } else if (!dialAutoListen) updateMicBtn('idle');
-  };
-  rec.onerror = (e) => {
-    dialMicActive = false;
-    if (e.error !== 'no-speech') showToast('Erreur: ' + e.error);
-    else if (dialAutoListen) setTimeout(startMic, 300);
-  };
-  window.dialRecognition = rec;
-  rec.start();
-}
-
-function stopMic() {
-  if (window.dialRecognition) window.dialRecognition.stop();
-}
-
-function addDialMsg(role, text) {
-  const box = document.getElementById('dial-messages');
-  const isUser = role === 'user';
-  const div = document.createElement('div');
-  div.style.cssText = `display:flex; flex-direction:column; gap: 4px; align-items: ${isUser ? 'flex-end' : 'flex-start'};`;
-  const bubble = document.createElement('div');
-  bubble.style.cssText = `max-width: 85%; padding: 10px 14px; border-radius: ${isUser ? '18px 18px 4px 18px' : '18px 18px 18px 4px'}; font-size: 14px; line-height: 1.5; background: ${isUser ? 'var(--primary)' : 'var(--surface2)'}; color: ${isUser ? 'white' : 'var(--text)'}; ${!isUser ? 'border: 0.5px solid var(--border); cursor: pointer;' : ''}`;
-  bubble.textContent = text;
-  div.appendChild(bubble);
-
-  if (!isUser) {
-    const soundBtn = document.createElement('button');
-    soundBtn.style.cssText = 'background: none; border: none; font-size: 13px; cursor: pointer; margin-top: 4px;';
-    soundBtn.textContent = '🔊';
-    soundBtn.onclick = (e) => { e.stopPropagation(); speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); };
-    div.appendChild(soundBtn);
-    setTimeout(() => { speak(text, 'en', () => { if (dialAutoListen) setTimeout(startMic, 400); }); }, 200);
-  }
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
-}
-
-async function sendDialogue() {
-  const input = document.getElementById('dial-input');
-  const text = input.value.trim();
-  if (!text) return;
-  const btn = document.querySelector('button[onclick="sendDialogue()"]');
-  btn.disabled = true;
-  input.value = '';
-  addDialMsg('user', text);
-  dialHistory.push({ role: 'user', content: text });
-
-  try {
-    const key = localStorage.getItem('groq_key') || '';
-    if (!key) {
-      addDialMsg('assistant', '⚠️ Ajoute ta clé Groq dans les paramètres');
-      btn.disabled = false;
-      return;
-    }
-    const r = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
-      body: JSON.stringify({ model: 'mixtral-8x7b-32768', max_tokens: 300, messages: [{ role: 'system', content: DIAL_SYSTEM[dialMode] }, ...dialHistory.slice(-10)] })
-    });
-    const d = await r.json();
-    const reply = d.choices?.[0]?.message?.content || '…';
-    dialHistory.push({ role: 'assistant', content: reply });
-    addDialMsg('assistant', reply);
-  } catch (e) {
-    addDialMsg('assistant', '❌ Erreur réseau');
-  }
-  btn.disabled = false;
 }
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
