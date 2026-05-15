@@ -1,4 +1,4 @@
-const CACHE_NAME = 'english-app-v9999999999-lina-clean';
+const CACHE_NAME = 'english-app-v99999999999-fixed';
 const ASSETS = [
   './index.html',
   './manifest.json'
