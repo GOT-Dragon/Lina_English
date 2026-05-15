@@ -965,6 +965,7 @@ const LS_DICO='eng_dico_v2', LS_PHRASE='eng_phrase_v2', LS_HIST='eng_dict_hist';
 // STORAGE
 // ═══════════════════════════════════════════
 function loadData() {
+  if (FIXED_UID === "lina_main") { console.log("✓ Lina: Pratique vide"); return; }
   try {
     const sd = localStorage.getItem(LS_DICO);
     dicoData = sd ? JSON.parse(sd) : BASE_DICO.map(([w,t])=>({word:w,trans:t,custom:false}));
