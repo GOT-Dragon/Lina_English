@@ -968,8 +968,8 @@ function loadData() {
   try {
     const sd = localStorage.getItem(LS_DICO);
     dicoData = sd ? JSON.parse(sd) : BASE_DICO.map(([w,t])=>({word:w,trans:t,custom:false}));
-    const sp = localStorage.getItem(LS_PHRASE);
-    phraseData = sp ? JSON.parse(sp) : BASE_PHRASES.map(p=>({word:p.word,en:p.en,fr:p.fr||'',custom:false}));
+    // LINA: Toujours charger BASE_PHRASES vide pour Pratique
+    phraseData = BASE_PHRASES.map(p=>({word:p.word,en:p.en,fr:p.fr||'',custom:false}));
     const sh = localStorage.getItem(LS_HIST);
     dictHistory = sh ? JSON.parse(sh) : [];
   } catch(e) {
