@@ -2877,6 +2877,19 @@ function saveGroqKey() {
   showToast('Clé Groq sauvegardée !');
 }
 
+
+function clearPractice() {
+    if (confirm('Vider TOUTES les phrases de Pratique ?')) {
+        localStorage.removeItem('eng_practice');
+        localStorage.removeItem('eng_practice_v2');
+        PRACTICE_DATA = [];
+        savePracticeData();
+        alert('Pratique vidée !');
+        location.reload();
+    }
+}
+
+
 function openSettings() {
   document.getElementById('settings-modal').classList.add('open');
   // Show existing Groq key if set
