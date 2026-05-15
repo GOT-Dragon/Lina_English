@@ -603,48 +603,6 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
     </div>
 
     <!-- ÉCRIT -->
-    <div class="section" id="s-ecrit">
-      <div class="sub-tabs">
-        <button class="sub-tab active" onclick="goSub('ecrit','lire',this)">Lire</button>
-        <button class="sub-tab" onclick="goSub('ecrit','ecrire',this)">Écrire</button>
-      </div>
-      <div class="sub-section active" id="e-lire">
-        <div class="routine-grid">
-          <div class="routine-card"><h3>Routine lecture</h3>
-            <div class="routine-item">Mercredi : lecture à voix haute</div>
-            <div class="routine-item">Lire → fermer → reformuler</div>
-            <div class="routine-item">Mots inconnus → ajouter au dico</div>
-          </div>
-          <div class="routine-card"><h3>Ressources</h3>
-            <div class="routine-item">BBC Learning English</div>
-            <div class="routine-item">The Guardian</div>
-            <div class="routine-item">TED Talks transcripts</div>
-          </div>
-        </div>
-        <div class="ex-card"><span class="ex-tag tag-lecture">lecture</span><h3>Lecture active</h3><p>Lisez un article (BBC, The Guardian). Lisez une fois, fermez, écrivez 3 idées de mémoire. Relisez et comparez. Ajoutez les mots inconnus à votre dico.</p></div>
-        <div class="ex-card"><span class="ex-tag tag-lecture">lecture</span><h3>Révision lettre du dico</h3><p>Chaque jour, révisez une lettre. Lisez chaque mot à voix haute, couvrez la traduction, essayez de la retrouver. Utilisez le quiz de l'app.</p></div>
-        <div class="ex-card"><span class="ex-tag tag-lecture">lecture</span><h3>Analyse de phrases</h3><p>5 phrases de la section Pratique. Pour chacune : identifiez la structure grammaticale et créez une phrase similaire dans votre contexte pro.</p></div>
-      </div>
-      <div class="sub-section" id="e-ecrire">
-        <div class="routine-grid">
-          <div class="routine-card"><h3>Routine écriture</h3>
-            <div class="routine-item">Vendredi : exercice avec ChatGPT</div>
-            <div class="routine-item">Week-end : corriger les notes</div>
-            <div class="routine-item">Reformuler vos phrases du quotidien</div>
-          </div>
-          <div class="routine-card"><h3>Journal</h3>
-            <div class="routine-item">3 phrases par jour sur votre journée</div>
-            <div class="routine-item">Utiliser les mots du dico</div>
-            <div class="routine-item">Vérifier avec Grammarly</div>
-          </div>
-        </div>
-        <div class="ex-card"><span class="ex-tag tag-ecrit">écrit</span><h3>Journal du jour</h3><p>5 phrases sur votre journée. Contrainte : 3 mots du dico + 1 phrase Pro. Vérifiez avec Grammarly ou LanguageTool.</p></div>
-        <div class="ex-card"><span class="ex-tag tag-ecrit">écrit</span><h3>Email professionnel</h3><p>Rédigez un email (5-6 phrases) avec : "As per our discussion", "I would like to point out", "Please let me know if anything is unclear".</p></div>
-        <div class="ex-card"><span class="ex-tag tag-ecrit">écrit</span><h3>Résumé de réunion</h3><p>Après une réunion, 5-6 phrases en anglais. Utilisez : "We have agreed to", "The next steps are", "The deadline is", "I will follow up on".</p></div>
-        <div class="ex-card"><span class="ex-tag tag-ecrit">écrit</span><h3>Reformulation</h3><p>3 phrases de la section Pro. Réécrivez-les en changeant sujet, temps ou contexte. Cela force la maîtrise de la structure, pas juste la mémorisation.</p></div>
-      </div>
-    </div>
-
     <!-- TRADUCTEUR -->
     <div class="section" id="s-dict">
 
@@ -702,9 +660,6 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
     </button>
     <button class="nav-item" onclick="goSection('oral',this)">
       <span class="nav-icon">🎧</span>Oral
-    </button>
-    <button class="nav-item" onclick="goSection('ecrit',this)">
-      <span class="nav-icon">✍️</span>Écrit
     </button>
     <button class="nav-item" onclick="goSection('dict',this)">
       <span class="nav-icon">🌐</span>Traduire
