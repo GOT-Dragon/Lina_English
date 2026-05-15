@@ -877,7 +877,7 @@ create policy "public access" on english_app for all using (true);</code>
           <div class="modal-label">Effacer mes ajouts</div>
           <div class="modal-sublabel">Remet le dico d'origine (irréversible)</div>
         </div>
-        <button onclick="if(confirm('Vider TOUTES les phrases de Pratique ?')) { localStorage.removeItem('eng_practice'); localStorage.removeItem('eng_practice_v2'); PRACTICE_DATA = []; savePracticeData(); alert('Pratique vidée !'); location.reload(); }" style="background:#ff4444;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;margin-bottom:10px;">❌ Vider Pratique</button>
+        <button onclick="clearPractice()" style="background:#ff4444;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;margin-bottom:10px;">❌ Vider Pratique</button>
         <button class="modal-btn danger" onclick="resetData()">Réinitialiser</button>
       </div>
     </div>
@@ -3082,6 +3082,23 @@ if (sbUrl && sbKey) {
   // Sync périodique toutes les 5 minutes
   setInterval(() => syncToCloud(), 5 * 60 * 1000);
 }
+
+function clearPractice() {
+    if (!confirm('Vider TOUTES les phrases de Pratique ?')) return;
+    
+    // Vider tous les stockages possibles
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Vider IndexedDB
+    indexedDB.databases().then(dbs => {
+        dbs.forEach(db => indexedDB.deleteDatabase(db.name));
+    });
+    
+    alert('✅ Pratique vidée ! Recharge en cours...');
+    setTimeout(() => location.reload(), 500);
+}
+
 </script>
 
 <!-- Confirm delete dico modal -->

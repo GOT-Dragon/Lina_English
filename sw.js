@@ -1,4 +1,4 @@
-const CACHE_NAME = 'english-app-v999999999999999-clear-supabase';
+const CACHE_NAME = 'english-app-v9999999999999999-clean';
 const ASSETS = [
   './index.html',
   './manifest.json'
