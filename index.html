@@ -529,11 +529,9 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
     <!-- ORAL -->
     <div class="section" id="s-oral">
       <div class="sub-tabs">
-        <button class="sub-tab active" onclick="goSub('oral','ecoute',this)">Écouter</button>
-        <button class="sub-tab" onclick="goSub('oral','parler',this)">Parler</button>
-        <button class="sub-tab" onclick="goSub('oral','dialogue',this)">💬 Dialogue</button>
+        <button class="sub-tab active" onclick="goSub('oral','dialogue',this)">💬 Dialogue</button>
       </div>
-      <div class="sub-section active" id="o-ecoute">
+      <div class="sub-section" id="o-ecoute">
         <div class="routine-grid">
           <div class="routine-card"><h3>Quotidien</h3>
             <div class="routine-item">Écouter une vidéo sans sous-titres</div>
@@ -571,7 +569,7 @@ html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMa
       </div>
 
       <!-- DIALOGUE IA -->
-      <div class="sub-section" id="o-dialogue">
+      <div class="sub-section active" id="o-dialogue">
         <div style="display:flex;flex-direction:column;height:calc(100vh - 220px);gap:10px;">
 
           <!-- Config bar -->
